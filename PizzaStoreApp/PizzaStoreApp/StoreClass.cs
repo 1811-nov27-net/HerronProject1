@@ -39,7 +39,7 @@ namespace PizzaStoreAppLibrary
                         throw new OutOfStockException(item);
                 }
             }
-            order.Store = Name;
+            order.Store = this;
             return true;
         }
 

@@ -26,6 +26,7 @@ namespace PizzaStoreApp.DataAccess
         public void AddAddressToCustomer(AddressClass address, CustomerClass customer)
         {
             Customer cust = _db.Customer.Include(c => c.CustomerAddress).First(c => c.Username == customer.Username);
+            address.StoreID = _db.Store.Where(s => s.Zip == address.Zip).First().StoreId;
             cust.CustomerAddress.Add(Map(address));
             Save();
         }
@@ -58,6 +59,25 @@ namespace PizzaStoreApp.DataAccess
             {
                 throw new InvalidLoginException();
             }
+        }
+
+        public CustomerClass PopulateOrderHistory(CustomerClass customer)
+        {
+            Customer cust = _db.Customer
+                .Include(c => c.PizzaOrder)
+                    .ThenInclude(po => po.PizzasInOrder)
+                        .ThenInclude(PiO => PiO.Pizza)
+                .Include(c=> c.PizzaOrder)
+                    .ThenInclude(po => po.Store)
+                        .ThenInclude(s => s.Invantory)
+                .Where(c => c.CustomerId == customer.UserID).First();
+
+            foreach (var Order in cust.PizzaOrder)
+            {
+                customer.PreviousOrders.Add(Map(Order, customer, Map(Order.Store)));
+            }
+
+            return customer;
         }
 
         public void ChangeUserPassword(string AdminUsername, string AdminPassword, CustomerClass customer, string NewPassword)
@@ -98,7 +118,7 @@ namespace PizzaStoreApp.DataAccess
 
         public IEnumerable<StoreClass> LoadLocations()
         {
-            List<Store> temp = _db.Store.ToList();
+            List<Store> temp = _db.Store.Include(s=>s.Invantory).ThenInclude(i => i.Ingrediant).ToList();
             List<StoreClass> ret = new List<StoreClass>();
             foreach (var store in temp)
             {
@@ -109,31 +129,37 @@ namespace PizzaStoreApp.DataAccess
 
         public IEnumerable<OrderClass> LoadOrdersByCustomer(CustomerClass customer)
         {
-            int custID = _db.Customer.Where(c => c.Username == customer.Username).First().CustomerId;
-            List<PizzaOrder> temp = _db.PizzaOrder.Include(po => po.Customer).Include(po => po.Store).Include(po => po.PizzasInOrder).ThenInclude(PiO => PiO.Pizza).ThenInclude(p => p.IngrediantsOnPizza).ThenInclude(IoP => IoP.Ingrediant).ThenInclude(I => I.IngrediantName).Where(o => o.CustomerId == custID).ToList();
-            List<OrderClass> ret = new List<OrderClass>();
-            foreach (var order in temp)
-            {
-                ret.Add(Map(order));
-            }
+            var ret = PopulateOrderHistory(customer).PreviousOrders;
             return ret;
         }
 
         public IEnumerable<OrderClass> LoadOrdersByLocation(StoreClass location)
         {
             int locID = _db.Store.Where(s => s.StoreName == location.Name).First().StoreId;
-            List<PizzaOrder> temp = _db.PizzaOrder.Include(po => po.Customer).Include(po => po.Store).Include(po => po.PizzasInOrder).ThenInclude(PiO => PiO.Pizza).ThenInclude(p => p.IngrediantsOnPizza).ThenInclude(IoP => IoP.Ingrediant).ThenInclude(I => I.IngrediantName).Where(o => o.StoreId == locID).ToList();
+            var dict = GenerateIngrediantDictionary();
+            List<PizzaOrder> temp = _db.PizzaOrder
+                .Include(po => po.Customer)
+                    .ThenInclude(c => c.CustomerAddress)
+                .Include(po => po.Store)
+                .Include(po => po.PizzasInOrder)
+                    .ThenInclude(PiO => PiO.Pizza)
+                        .ThenInclude(p => p.IngrediantsOnPizza)
+                            .ThenInclude(IoP => IoP.Ingrediant)
+                                .ThenInclude(I => I.IngrediantName)
+                .Where(o => o.StoreId == locID).ToList();
             List<OrderClass> ret = new List<OrderClass>();
             foreach (var order in temp)
             {
-                ret.Add(Map(order));
+                ret.Add(Map(order, Map(order.Customer), Map(order.Store)));
             }
             return ret;
         }
 
         public void PlaceOrder(OrderClass order)
         {
-            _db.Add(Map(order));
+            var dict = GenerateIngrediantDictionary();
+            _db.Add(Map(order,dict));
+            Save();
         }
 
         public void RemoveCustomerAddress(AddressClass address, CustomerClass customer)
@@ -238,10 +264,14 @@ namespace PizzaStoreApp.DataAccess
             {
                 FirstName = cust.FirstName,
                 LastName = cust.LastName,
+                UserID = cust.CustomerId
             };
-            foreach (var Order in cust.PizzaOrder)
+
+            List<CustomerAddress> adds = cust.CustomerAddress.ToList();
+
+            foreach (var address in adds)
             {
-                ret.PreviousOrders.Add(Map(Order));
+                ret.Addresses.Add(Map(address));
             }
 
             return ret;
@@ -251,21 +281,36 @@ namespace PizzaStoreApp.DataAccess
         {
             StoreClass ret = new StoreClass(store.StoreName)
             {
-
+                Address = new AddressClass
+                {
+                    Street = store.Street,
+                    Apartment = store.Street2,
+                    City = store.City,
+                    Zip = store.Zip,
+                    State = store.State
+                },
+                StoreID = store.StoreId,
+                
             };
+
+            ret.Invantory = new Dictionary<string, int>();
+            foreach (var Inv in store.Invantory)
+            {
+                ret.Invantory.Add(Inv.Ingrediant.IngrediantName, Inv.Quantity);
+            }
 
             return ret;
         }
 
-        internal static OrderClass Map(PizzaOrder order)
+        internal static OrderClass Map(PizzaOrder order, CustomerClass customer, StoreClass store)
         {
             OrderClass ret = new OrderClass
             {
-                Store = order.Store.StoreName,
-                User = order.Customer.Username,
+                Store = store,
+                Customer = customer,
                 DeliveryAddress = Map(order.CustomerAddress),
                 OrderID = order.PizzaOrderId,
-                DatePlaced = order.DatePlaced
+                DatePlaced = order.DatePlaced,
 
             };
 
@@ -281,12 +326,30 @@ namespace PizzaStoreApp.DataAccess
 
         private static AddressClass Map(CustomerAddress customerAddress)
         {
-            throw new NotImplementedException();
+            return new AddressClass
+            {
+                Street = customerAddress.Street,
+                Apartment = customerAddress.Street2,
+                City = customerAddress.City,
+                Zip = customerAddress.Zip,
+                State = customerAddress.State,
+                AddressID = customerAddress.CustomerAddressId,
+                StoreID = customerAddress.StoreId
+            };
         }
 
-        internal static PizzaOrder Map(OrderClass order)
+        internal static PizzaOrder Map(OrderClass order, Dictionary<int, string> IngrediantDictionary)
         {
-            throw new NotImplementedException();
+            PizzaOrder ret = new PizzaOrder
+            {
+                StoreId = order.Store.StoreID,
+                CustomerId = order.Customer.UserID,
+                CustomerAddressId = order.DeliveryAddress.AddressID
+
+            };
+
+            return ret;
+
         }
     }
 }

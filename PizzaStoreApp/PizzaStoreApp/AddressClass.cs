@@ -12,6 +12,7 @@ namespace PizzaStoreAppLibrary
         public int Zip { get; set; }
         public string State { get; set; }
         public int AddressID { get; set; }
+        public int StoreID { get; set; }
         
     }
 }

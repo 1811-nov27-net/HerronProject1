@@ -13,8 +13,6 @@ namespace PizzaStoreApp
         public List<AddressClass> Addresses { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FavoriteStore { get; set; }
-        public Dictionary<string, int> PrevLocationsOrdered { get; set; } // number of times ordered from locations, by name of location
         public List<OrderClass> PreviousOrders = new List<OrderClass>();
         public int UserID { get; set; }
 

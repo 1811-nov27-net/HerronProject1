@@ -11,10 +11,10 @@ namespace PizzaStoreAppLibrary
         public static double PricePerIngrediant = 1.00;
         public static double DeliveryFee = 2.00;
         public static double TaxRate = .08;
-        public string Store { get; set; }
-        public string User { get; set; }
         public AddressClass DeliveryAddress { get; set; }
         public List<PizzaClass> pizzas;
+        public StoreClass Store { get; set; }
+        public CustomerClass Customer { get; set; }
         private double _totalCost;
         private double _costBeforeTax;
         public double CostBeforeTax { get { return _costBeforeTax; } }
