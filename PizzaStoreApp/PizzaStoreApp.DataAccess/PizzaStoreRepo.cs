@@ -27,7 +27,7 @@ namespace PizzaStoreApp.DataAccess
         {
             Customer cust = _db.Customer.Include(c => c.CustomerAddress).First(c => c.Username == customer.Username);
             address.StoreID = _db.Store.Where(s => s.Zip == address.Zip).First().StoreId;
-            cust.CustomerAddress.Add(Map(address));
+            cust.CustomerAddress.Add(Map(address,customer.UserID));
             Save();
         }
 
@@ -201,6 +201,7 @@ namespace PizzaStoreApp.DataAccess
         public void UpdateLocation(StoreClass location)
         {
             _db.Entry(_db.Customer.Find(location.Name)).CurrentValues.SetValues(Map(location));
+            Save();
         }
 
         public static Pizza Map(PizzaClass pizzaClass, Dictionary<int, string> IngrediantDictionary)
@@ -226,25 +227,54 @@ namespace PizzaStoreApp.DataAccess
             {
                 ingrediants.Add(IoP.Ingrediant.IngrediantName);
             }
-            PizzaClass pizzaClass = new PizzaClass((PizzaClass.PizzaSize)pizza.Size, ingrediants);
-            pizzaClass.PizzaID = pizza.PizzaId;
+            PizzaClass pizzaClass = new PizzaClass((PizzaClass.PizzaSize)pizza.Size, ingrediants)
+            {
+                PizzaID = pizza.PizzaId
+            };
 
             return pizzaClass;
         }
 
         internal static Store Map(StoreClass location)
         {
-            throw new NotImplementedException();
+            return new Store
+            {
+                StoreId = location.StoreID,
+                StoreName = location.Name,
+                Street = location.Address.Street,
+                Street2 = location.Address.Apartment,
+                City = location.Address.City,
+                Zip = location.Address.Zip,
+                State = location.Address.State
+            };
         }
 
-        internal static CustomerAddress Map(AddressClass address)
+        internal static CustomerAddress Map(AddressClass address, int CustomerID)
         {
-            throw new NotImplementedException();
+            return new CustomerAddress
+            {
+                CustomerAddressId = address.AddressID,
+                CustomerId = CustomerID,
+                StoreId = address.StoreID,
+                Street = address.Street,
+                Street2 = address.Apartment,
+                City = address.City,
+                State = address.State,
+                Zip = address.Zip
+            };
         }
 
         internal static Customer Map(CustomerClass customer)
         {
-            throw new NotImplementedException();
+            return new Customer
+            {
+                CustomerId = customer.UserID,
+                Username = customer.Username,
+                Password = customer.Password,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                FavoriteStoreId = customer.FavoriteStoreID
+            };
         }
 
         internal static List<CustomerClass> Map(IQueryable<Customer> queryable)
@@ -264,7 +294,8 @@ namespace PizzaStoreApp.DataAccess
             {
                 FirstName = cust.FirstName,
                 LastName = cust.LastName,
-                UserID = cust.CustomerId
+                UserID = cust.CustomerId,
+                FavoriteStoreID = cust.FavoriteStoreId
             };
 
             List<CustomerAddress> adds = cust.CustomerAddress.ToList();

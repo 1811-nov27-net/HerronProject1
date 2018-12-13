@@ -8,11 +8,12 @@ namespace PizzaStoreApp
     public class CustomerClass
     {
         public string Username { get; set; }
-        private readonly string Password;
+        public string Password;
         private int failedPasswordChecks;
         public List<AddressClass> Addresses { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int? FavoriteStoreID { get; set; }
         public List<OrderClass> PreviousOrders = new List<OrderClass>();
         public int UserID { get; set; }
 
@@ -21,6 +22,7 @@ namespace PizzaStoreApp
         {
             Username = newUsername;
             Password = newPassword;
+            failedPasswordChecks = 0;
         }
 
         public OrderClass SuggestOrder()
