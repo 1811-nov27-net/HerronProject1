@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Moq;
 using PizzaStoreApp;
 using PizzaStoreAppLibrary;
 using Xunit;
@@ -82,10 +83,16 @@ namespace PizzaStoreAppTest
             Assert.Equal(result, expected);
         }
 
-        [Fact]
-
-        public void MokTest()
+        [Theory]
+        [InlineData("Username",null)]
+        public void MokTest(string username, CustomerClass cust)
         {
+            
+            var mockRepo = new Mock<IPizzaStoreRepo>();
+            mockRepo.Setup(repo => repo.LoadCustomerByUsername(username)).Returns(cust);
+
+            mockRepo.Setup(repo => repo.ChangeUserPassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CustomerClass>(), It.IsAny<string>()));
+
 
         }
 
