@@ -8,94 +8,94 @@ namespace PizzaStoreApp.DataAccess
 {
     class Mapper
     {
-        public static Pizza Map(PizzaClass pizzaClass, Dictionary<int,string> IngrediantDictionary)
-        {
-            Pizza pizza = new Pizza
-            {
-                Size = (int)pizzaClass.Size,
-                Cost = (decimal)pizzaClass.Price,
-                PizzaId = pizzaClass.PizzaID
-            };
+        //public static Pizza Map(PizzaClass pizzaClass, Dictionary<int,string> IngrediantDictionary)
+        //{
+        //    Pizza pizza = new Pizza
+        //    {
+        //        Size = (int)pizzaClass.Size,
+        //        Cost = (decimal)pizzaClass.Price,
+        //        PizzaId = pizzaClass.PizzaID
+        //    };
 
-            foreach (var ingrediant in pizzaClass.Ingrediants)
-            {
-                pizza.IngrediantsOnPizza.Add(new IngrediantsOnPizza { IngrediantId = IngrediantDictionary.FirstOrDefault(i => i.Value == ingrediant).Key, PizzaId = pizzaClass.PizzaID });
-            }
+        //    foreach (var ingrediant in pizzaClass.Ingrediants)
+        //    {
+        //        pizza.IngrediantsOnPizza.Add(new IngrediantsOnPizza { IngrediantId = IngrediantDictionary.FirstOrDefault(i => i.Value == ingrediant).Key, PizzaId = pizzaClass.PizzaID });
+        //    }
 
-            return pizza;
-        }
-        public static PizzaClass Map(Pizza pizza, Dictionary<int, string> IngrediantDictionary)
-        {
-            HashSet<string> ingrediants = new HashSet<string>();
-            foreach (var IoP in pizza.IngrediantsOnPizza)
-            {
-                ingrediants.Add(IngrediantDictionary[IoP.IngrediantId]);
-            }
-            PizzaClass pizzaClass = new PizzaClass((PizzaClass.PizzaSize) pizza.Size,ingrediants);
-            pizzaClass.PizzaID = pizza.PizzaId;
+        //    return pizza;
+        //}
+        //public static PizzaClass Map(Pizza pizza, Dictionary<int, string> IngrediantDictionary)
+        //{
+        //    HashSet<string> ingrediants = new HashSet<string>();
+        //    foreach (var IoP in pizza.IngrediantsOnPizza)
+        //    {
+        //        ingrediants.Add(IngrediantDictionary[IoP.IngrediantId]);
+        //    }
+        //    PizzaClass pizzaClass = new PizzaClass((PizzaClass.PizzaSize) pizza.Size,ingrediants);
+        //    pizzaClass.PizzaID = pizza.PizzaId;
 
-            return pizzaClass;
-        }
+        //    return pizzaClass;
+        //}
 
-        internal static Store Map(StoreClass location)
-        {
-            throw new NotImplementedException();
-        }
+        //internal static Store Map(StoreClass location)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        internal static CustomerAddress Map(AddressClass address)
-        {
-            throw new NotImplementedException();
-        }
+        //internal static CustomerAddress Map(AddressClass address)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        internal static Customer Map(CustomerClass customer)
-        {
-            throw new NotImplementedException();
-        }
+        //internal static Customer Map(CustomerClass customer)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        internal static List<CustomerClass> Map(IQueryable<Customer> queryable)
-        {
-            List<CustomerClass> ret = new List<CustomerClass>();
-            foreach (var cust in queryable)
-            {
+        //internal static List<CustomerClass> Map(IQueryable<Customer> queryable)
+        //{
+        //    List<CustomerClass> ret = new List<CustomerClass>();
+        //    foreach (var cust in queryable)
+        //    {
 
-                ret.Add(Map(cust));
-            }
-            return ret;
-        }
+        //        ret.Add(Map(cust));
+        //    }
+        //    return ret;
+        //}
 
-        internal static CustomerClass Map(Customer cust)
-        {
-            CustomerClass ret = new CustomerClass(cust.Username, cust.Password)
-            {
-                FirstName = cust.FirstName,
-                LastName = cust.LastName,
-            };
-            foreach (var Order in cust.PizzaOrder)
-            {
-                ret.PreviousOrders.Add(Map(Order));
-            }
+        //internal static CustomerClass Map(Customer cust)
+        //{
+        //    CustomerClass ret = new CustomerClass(cust.Username, cust.Password)
+        //    {
+        //        FirstName = cust.FirstName,
+        //        LastName = cust.LastName,
+        //    };
+        //    foreach (var Order in cust.PizzaOrder)
+        //    {
+        //        ret.PreviousOrders.Add(Map(Order));
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
-        internal static StoreClass Map(Store store)
-        {
-            StoreClass ret = new StoreClass(store.StoreName)
-            {
+        //internal static StoreClass Map(Store store)
+        //{
+        //    StoreClass ret = new StoreClass(store.StoreName)
+        //    {
                 
-            };
+        //    };
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
-        internal static OrderClass Map(PizzaOrder order)
-        {
-            throw new NotImplementedException();
-        }
+        //internal static OrderClass Map(PizzaOrder order)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        internal static PizzaOrder Map(OrderClass order)
-        {
-            throw new NotImplementedException();
-        }
+        //internal static PizzaOrder Map(OrderClass order)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

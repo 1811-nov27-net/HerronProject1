@@ -12,27 +12,16 @@ namespace PizzaStoreAppLibrary
         public static double DeliveryFee = 2.00;
         public static double TaxRate = .08;
         public string Store { get; set; }
-        private readonly string _user;
-        public string User { get { return _user; } }
+        public string User { get; set; }
         public AddressClass DeliveryAddress { get; set; }
         public List<PizzaClass> pizzas;
         private double _totalCost;
         private double _costBeforeTax;
         public double CostBeforeTax { get { return _costBeforeTax; } }
         public double TotalCost { get { return _totalCost; } }
-        public readonly DateTime DatePlaced;
+        public DateTime DatePlaced;
         public int OrderID { get; set; }
-
-        public OrderClass (CustomerClass customer, string password)
-        {
-            if(customer.CheckPassword(password))
-            {
-                _user = customer.Username;
-                Store = customer.FavoriteStore ?? customer.PreviousOrders[customer.PreviousOrders.Count - 1].Store ?? "Main";
-                _costBeforeTax = 0;
-            }
-
-        }
+        
 
         public void AddPizza (PizzaClass.PizzaSize size, HashSet<string> ingrediants)
         {
