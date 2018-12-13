@@ -14,41 +14,30 @@ namespace PizzaStoreAppLibrary
         public StoreClass(string givenName)
         {
             Name = givenName;
-            Restock();
         }
 
-        public void Restock()
+        public void Restock(string[] ingrediants, int[] amounts)
         {
-            Invantory.Clear();
-            foreach (string item in OrderClass.Ingrediants)
+            for (int i = 0; i < ingrediants.Length; i++)
             {
-                Invantory.Add(item, 30);
+                Invantory[ingrediants[i]] = amounts[i];
             }
-
         }
 
         public bool ServeOrder(OrderClass order)
         {
             Dictionary<string, int> ingrediantsNeeded = new Dictionary<string, int>();
-            foreach (string item in OrderClass.Ingrediants)
-            {
-                ingrediantsNeeded.Add(item, 0);
-            }
             foreach (PizzaClass pizza in order.pizzas)
             {
                 foreach (string item in pizza.Ingrediants)
                 {
-                    ingrediantsNeeded[item]++;
+                    if (ingrediantsNeeded.ContainsKey(item))
+                        ingrediantsNeeded[item]++;
+                    else if (Invantory.ContainsKey(item) && Invantory[item] > 0)
+                        ingrediantsNeeded.Add(item, 1);
+                    else
+                        throw new OutOfStockException(item);
                 }
-            }
-            foreach (string item in OrderClass.Ingrediants)
-            {
-                if (Invantory[item] < ingrediantsNeeded[item])
-                    return false;
-            }
-            foreach (string item in OrderClass.Ingrediants)
-            {
-                Invantory[item] -= ingrediantsNeeded[item];
             }
             order.Store = Name;
             return true;
