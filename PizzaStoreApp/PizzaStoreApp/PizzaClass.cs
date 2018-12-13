@@ -10,6 +10,7 @@ namespace PizzaStoreAppLibrary
         public double Price { get { return _price; } }
         public HashSet<string> Ingrediants { get; set; }
         public PizzaSize Size { get; set; }
+        public int PizzaID { get; set; }
 
         public PizzaClass (PizzaSize size, HashSet<string> ingrediants)
          {

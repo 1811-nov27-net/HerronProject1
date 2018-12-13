@@ -8,13 +8,19 @@ namespace PizzaStoreApp.DataAccess
 {
     class Mapper
     {
-        public static Pizza Map(PizzaClass pizzaClass)
+        public static Pizza Map(PizzaClass pizzaClass, Dictionary<int,string> IngrediantDictionary)
         {
             Pizza pizza = new Pizza
             {
                 Size = (int)pizzaClass.Size,
-                Cost = (decimal)pizzaClass.Price
+                Cost = (decimal)pizzaClass.Price,
+                PizzaId = pizzaClass.PizzaID
             };
+
+            foreach (var ingrediant in pizzaClass.Ingrediants)
+            {
+                pizza.IngrediantsOnPizza.Add(new IngrediantsOnPizza { IngrediantId = IngrediantDictionary.FirstOrDefault(i => i.Value == ingrediant).Key, PizzaId = pizzaClass.PizzaID });
+            }
 
             return pizza;
         }
@@ -26,7 +32,7 @@ namespace PizzaStoreApp.DataAccess
                 ingrediants.Add(IngrediantDictionary[IoP.IngrediantId]);
             }
             PizzaClass pizzaClass = new PizzaClass((PizzaClass.PizzaSize) pizza.Size,ingrediants);
-            pizza.Cost = (decimal)pizzaClass.Price;
+            pizzaClass.PizzaID = pizza.PizzaId;
 
             return pizzaClass;
         }

@@ -8,8 +8,6 @@ namespace PizzaStoreAppLibrary
 {
     public class OrderClass
     {
-        public static string[] Ingrediants = { "Sausage", "Peperoni", "Black Olives", "Green Olives", "Bell Peppers", "Jalapenos", "Chicken", "Hot Sauce", "Mushrooms",
-            "Pineapple", "Onions", "Tomatoes", "Extra Cheese"};
         public static double PricePerIngrediant = 1.00;
         public static double DeliveryFee = 2.00;
         public static double TaxRate = .08;
@@ -23,6 +21,7 @@ namespace PizzaStoreAppLibrary
         public double CostBeforeTax { get { return _costBeforeTax; } }
         public double TotalCost { get { return _totalCost; } }
         public readonly DateTime DatePlaced;
+        public int OrderID { get; set; }
 
         public OrderClass (CustomerClass customer, string password)
         {
