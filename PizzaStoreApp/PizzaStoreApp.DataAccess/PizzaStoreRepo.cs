@@ -178,6 +178,18 @@ namespace PizzaStoreApp.DataAccess
         {
             if (AdminUsername == SecretString.AdminUsername && AdminPassword == SecretString.AdminPassword)
             {
+                var orders = _db.PizzaOrder.Where(po => po.StoreId == location.StoreID);
+                foreach (var order in orders)
+                {
+                    order.StoreId = 1;
+                }
+                _db.Update(orders);
+                var adds = _db.CustomerAddress.Where(ca => ca.StoreId == location.StoreID);
+                foreach (var add in adds)
+                {
+                    add.StoreId = 1;
+                }
+                _db.Update(orders);
                 _db.Remove(_db.Store.Where(s => s.StoreName == location.Name));
                 Save();
             }
