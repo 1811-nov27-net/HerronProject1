@@ -71,8 +71,8 @@ namespace MVPizza.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OrderID,Username,StoreName,AddressID,TimePlaced,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold")] Order order)
         {
-            var lastTime = await _context.Order.Where(o => o.Username == order.Username).OrderBy(o => o.TimePlaced).FirstAsync();
-            if (ModelState.IsValid && order.VerifyOrder(lastTime.TimePlaced))
+            // var lastTime = await _context.Order.Where(o => o.Username == order.Username).OrderBy(o => o.TimePlaced).FirstAsync();
+            if (ModelState.IsValid /*&& order.VerifyOrder(lastTime.TimePlaced)*/)
             {
 
 

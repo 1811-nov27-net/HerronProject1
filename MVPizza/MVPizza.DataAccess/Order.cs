@@ -44,6 +44,7 @@ namespace MVPizza.DataAccess
 
         public bool VerifyOrder(DateTime lastOrder)
         {
+            /*
             if (lastOrder == null)
             {
                 lastOrder = DateTime.Now.AddDays(-1);
@@ -52,9 +53,13 @@ namespace MVPizza.DataAccess
                 return false;
             if (NumberOfMeatLovers + NumberOfSolidGold + NumberOfSupremes + NumberOfVeggie > 12)
                 return false;
+            if (NumberOfMeatLovers > Store.NumberOfMeatLovers || NumberOfSolidGold > Store.NumberOfSolidGold || NumberOfSupremes > Store.NumberOfSupremes || NumberOfVeggie > Store.NumberOfVeggie)
+                return false;
             TotalCost = NumberOfMeatLovers * CostOfMeatLovers + NumberOfSolidGold * CostOfSolidGold + NumberOfSupremes * CostOfSupreme + NumberOfVeggie * CostOfVeggie;
+            TimePlaced = DateTime.Now;
             if (TotalCost > 500)
                 return false;
+            */        
             return true;
         }
 
