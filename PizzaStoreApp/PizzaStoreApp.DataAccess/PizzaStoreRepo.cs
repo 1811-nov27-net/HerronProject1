@@ -324,8 +324,9 @@ namespace PizzaStoreApp.DataAccess
 
         internal static StoreClass Map(Store store)
         {
-            StoreClass ret = new StoreClass(store.StoreName)
+            StoreClass ret = new StoreClass
             {
+                Name = store.StoreName,
                 Address = new AddressClass
                 {
                     Street = store.Street,

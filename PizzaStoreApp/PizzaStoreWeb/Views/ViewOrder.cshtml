@@ -1,0 +1,42 @@
+﻿@model PizzaStoreAppLibrary.OrderClass
+
+@{
+    ViewData["Title"] = "ViewOrder";
+}
+
+<h1>ViewOrder</h1>
+
+<div>
+    <h4>OrderClass</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CostBeforeTax)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CostBeforeTax)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DatePlaced)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DatePlaced)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -41,8 +41,7 @@ namespace PizzaStoreApp
         {
             if (failedPasswordChecks > 3)
             {
-                Console.WriteLine("Account locked; more than three failed login attempts"); // use error throw-catch here later?
-                return false;
+                throw new AccountLockedException();
             }
 
             if (testPassword == Password)
