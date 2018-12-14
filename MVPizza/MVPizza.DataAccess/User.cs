@@ -18,5 +18,7 @@ namespace MVPizza.DataAccess
         [StringLength(100)]
         public string LastName { get; set; }
 
+        public User() { }
+
     }
 }

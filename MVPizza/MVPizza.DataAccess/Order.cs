@@ -16,5 +16,8 @@ namespace MVPizza.DataAccess
         public string StoreName { get; set; }
         public int AddressID { get; set; }
         public DateTime TimePlaced { get; set; }
+
+        public Order() { }
+
     }
 }

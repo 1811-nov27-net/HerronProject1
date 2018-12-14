@@ -18,5 +18,8 @@ namespace MVPizza.DataAccess
         public string Street { get; set; }
         public int Zip { get; set; }
 
+
+        public Address() { }
+
     }
 }

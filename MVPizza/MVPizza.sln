@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVPizza", "MVPizza\MVPizza.csproj", "{A37F75EE-2301-407E-BD46-DCBE7EDCF455}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1FAEE1E0-026D-4E85-89EF-03AA015D11A1} = {1FAEE1E0-026D-4E85-89EF-03AA015D11A1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVPizza.DataAccess", "MVPizza.DataAccess\MVPizza.DataAccess.csproj", "{1FAEE1E0-026D-4E85-89EF-03AA015D11A1}"
 EndProject

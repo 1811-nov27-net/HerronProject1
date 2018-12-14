@@ -17,5 +17,7 @@ namespace MVPizza.DataAccess
         public int NumberOfSolidGold { get; set; }
         public int Zip { get; set; }
 
+        public Store() { }
+
     }
 }
