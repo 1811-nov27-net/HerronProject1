@@ -19,9 +19,25 @@ namespace MVPizza.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(char? type = null, string id = "")
         {
-            return View(await _context.Order.ToListAsync());
+            if (type == null)
+                return View(await _context.Order.ToListAsync());
+            else if(type == 's')
+            {
+                return View(await _context.Order.Where(o => o.StoreName == id).ToListAsync());
+
+            }
+            else if (type == 'a')
+            {
+                return View(await _context.Order.Where(o=> o.AddressID == int.Parse(id)).ToListAsync());
+
+            }
+            else
+            {
+                return View(await _context.Order.Where(o=> o.Username == id).ToListAsync());
+
+            }
         }
 
         // GET: Orders/Details/5
