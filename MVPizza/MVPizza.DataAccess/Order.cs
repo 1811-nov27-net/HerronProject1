@@ -33,11 +33,30 @@ namespace MVPizza.DataAccess
         public int NumberOfSolidGold { get; set; }
         [Display(Name = "Total Cost of Order")]
         double TotalCost { get; set; }
+        public Address DeliveryAddress { get; set; }
+        public Store Store { get; set; }
+        public User User { get; set; }
 
         public static double CostOfSupreme = 10;
         public static double CostOfMeatLovers = 8;
         public static double CostOfVeggie = 7;
         public static double CostOfSolidGold = 100;
+
+        public bool VerifyOrder(DateTime lastOrder)
+        {
+            if (lastOrder == null)
+            {
+                lastOrder = DateTime.Now.AddDays(-1);
+            }
+            if (DateTime.Now.Hour - lastOrder.Hour > 2)
+                return false;
+            if (NumberOfMeatLovers + NumberOfSolidGold + NumberOfSupremes + NumberOfVeggie > 12)
+                return false;
+            TotalCost = NumberOfMeatLovers * CostOfMeatLovers + NumberOfSolidGold * CostOfSolidGold + NumberOfSupremes * CostOfSupreme + NumberOfVeggie * CostOfVeggie;
+            if (TotalCost > 500)
+                return false;
+            return true;
+        }
 
 
         public Order() { }

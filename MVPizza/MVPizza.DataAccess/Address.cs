@@ -22,6 +22,7 @@ namespace MVPizza.DataAccess
         [StringLength(200)]
         public string Street { get; set; }
         public int Zip { get; set; }
+        public User User { get; set; }
 
         ICollection<Order> Orders { get; set; }
 
