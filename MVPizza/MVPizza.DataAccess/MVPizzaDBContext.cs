@@ -7,6 +7,10 @@ namespace MVPizza.DataAccess
     {
         public MVPizzaDBContext(DbContextOptions<MVPizzaDBContext> options) : base(options)
         { }
+        public MVPizzaDBContext()
+        {
+
+        }
 
         public DbSet<Store> Store { get; set; }
         public DbSet<Order> Order { get; set; }

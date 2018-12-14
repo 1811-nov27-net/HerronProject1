@@ -9,12 +9,11 @@ namespace MVPizza.DataAccess
 {
     public class Address
     {
-        public Address() { }
-
         [Key]
         [HiddenInput(DisplayValue = false)]
         public int AddressID { get; set; }
         [StringLength(100)]
+
         public string Username { get; set; }
         [StringLength(100)]
         public string StoreName { get; set; }
