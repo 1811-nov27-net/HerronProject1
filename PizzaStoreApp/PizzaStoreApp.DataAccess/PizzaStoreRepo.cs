@@ -157,8 +157,8 @@ namespace PizzaStoreApp.DataAccess
 
         public void PlaceOrder(OrderClass order)
         {
-            var dict = GenerateIngrediantDictionary();
-            _db.Add(Map(order,dict));
+            Dictionary<int, string> dict = GenerateIngrediantDictionary();
+            _db.Add(Map(order, dict));
             Save();
         }
 
@@ -302,8 +302,10 @@ namespace PizzaStoreApp.DataAccess
 
         internal static CustomerClass Map(Customer cust)
         {
-            CustomerClass ret = new CustomerClass(cust.Username, cust.Password)
+            CustomerClass ret = new CustomerClass()
             {
+                Username = cust.Username,
+                Password = cust.Password,
                 FirstName = cust.FirstName,
                 LastName = cust.LastName,
                 UserID = cust.CustomerId,

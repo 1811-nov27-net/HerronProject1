@@ -18,10 +18,9 @@ namespace PizzaStoreApp
         public int UserID { get; set; }
 
         
-        public CustomerClass(string newUsername, string newPassword)
+        public CustomerClass()
         {
-            Username = newUsername;
-            Password = newPassword;
+            
             failedPasswordChecks = 0;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using PizzaStoreApp;
 using PizzaStoreAppLibrary;
@@ -19,7 +20,7 @@ namespace PizzaStoreAppLibrary
         private double _costBeforeTax;
         public double CostBeforeTax { get { return _costBeforeTax; } }
         public double TotalCost { get { return _totalCost; } }
-        public DateTime DatePlaced;
+        public DateTime DatePlaced { get; set; }
         public int OrderID { get; set; }
         
 
@@ -44,11 +45,22 @@ namespace PizzaStoreAppLibrary
             _costBeforeTax = _totalCost;
             _totalCost *= (1+TaxRate); // tax
             _totalCost += DeliveryFee; // delivery fee
-            if (_totalCost > 500)
+            if (_totalCost >= 500)
                 throw new OrderTooExpensiveException();
             return _totalCost;
         }
 
+        public void VerifyOrder()
+        {
+            DateTime? recent = Customer.PreviousOrders.Where(o => o.DeliveryAddress.AddressID == DeliveryAddress.AddressID).OrderBy(o => o.DatePlaced).First().DatePlaced;
+            DateTime compare = recent ?? DateTime.Now.AddDays(-1); //Null value might be returned if the customer has never ordered from this store before. In this case, say "yesterday"
+            if (_totalCost > 500)
+                throw new OrderTooExpensiveException();
+            if (pizzas.Count > 12)
+                throw new OrderTooLargeException();
+            if (DateTime.Now.Hour - compare.Hour < 2)
+                throw new OrderTooSoonException();
+        }
 
 
         public void RemovePizza(int i)

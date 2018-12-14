@@ -54,7 +54,7 @@ namespace PizzaStoreAppTest
 
         public void NewCustomerHasNameGivenToConstructor(string testName)
         {
-            CustomerClass SUT = new CustomerClass(testName,"whatever, man");
+            CustomerClass SUT = new CustomerClass { Username = testName, Password = "whatever, man" };
 
             Assert.Equal(testName, SUT.Username);
         }
@@ -62,7 +62,7 @@ namespace PizzaStoreAppTest
 
         [Theory]
 
-        [InlineData("Dominoes", "abc123","abc123",true)]
+        [InlineData("Dominoes", "abc123", "abc123", true)]
         [InlineData("", "", "", true)]
         [InlineData("L00ser", "My Cat Henrey", "password", false)]
         [InlineData("Admin", "password", "password", true)]
@@ -74,7 +74,7 @@ namespace PizzaStoreAppTest
         public void NewCustomerPasswordCheck(string testName, string testPW, string testInput, bool expected)
         {
             // arrange
-            CustomerClass SUT = new CustomerClass(testName, testPW);
+            CustomerClass SUT = new CustomerClass{Username = testName, Password = testPW};
 
             // act
             bool result = SUT.CheckPassword(testInput);
