@@ -1,16 +1,15 @@
 ﻿@model MVPizza.DataAccess.Order
-
+@using MVPizza.DataAccess
 @{
     ViewData["Title"] = "Create";
 }
-
 <h1>Create</h1>
 
 <h4>Order</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-4" id="OrderForm">
+        <form asp-action="Create" onChange="getTotal()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
@@ -52,6 +51,7 @@
                 <input asp-for="NumberOfSolidGold" class="form-control" />
                 <span asp-validation-for="NumberOfSolidGold" class="text-danger"></span>
             </div>
+            <div class="form-group" id="TotalPrice"></div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -64,5 +64,22 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    <script>
+        function getTotal() {
+            var prices = {
+                'gold':@Order.CostOfSolidGold,
+                'meat':@Order.CostOfMeatLovers,
+                'veg':@Order.CostOfVeggie,
+                'sup':@Order.CostOfSupreme
+            };
+            var theForm = document.forms[0];
+            console.log("Got here")
+            var orderPrice = theForm.elements["NumberOfSupremes"].value * prices['sup'] + theForm.elements[5].value * prices['meat'] +
+                theForm.elements[6].value * prices['veg'] + theForm.elements[7].value * prices['gold'];
+            document.getElementById('TotalPrice').innerHTML = "Total Price is $"+orderPrice;
+        }
+    </script>
+    }
 }

@@ -32,7 +32,7 @@ namespace MVPizza.DataAccess
         [Display(Name = "Solid Gold Pizzas")]
         public int NumberOfSolidGold { get; set; }
         [Display(Name = "Total Cost of Order")]
-        double TotalCost { get; set; }
+        public double TotalCost { get; set; }
         public Address DeliveryAddress { get; set; }
         public Store Store { get; set; }
         public User User { get; set; }

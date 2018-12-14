@@ -1,16 +1,23 @@
-﻿@model IEnumerable<MVPizza.DataAccess.Order>
+﻿@using MVPizza.DataAccess
+@model IEnumerable<Order>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 <script>
 
     $(document).ready(function () {
         $('#OrderDisplay').DataTable();
+
+        var prices = {
+            'gold':@Order.CostOfSolidGold
+            'meat':@Order.CostOfMeatLovers
+            'veg':@Order.CostOfVeggie
+            'sup':@Order.CostOfSupreme
+        }
     });
 </script>
 
@@ -47,6 +54,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.NumberOfSolidGold)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalCost)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -77,6 +87,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NumberOfSolidGold)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCost)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.OrderID">Edit</a> |
