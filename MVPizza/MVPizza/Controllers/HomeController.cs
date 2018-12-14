@@ -4,12 +4,18 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MVPizza.DataAccess;
 using MVPizza.Models;
 
 namespace MVPizza.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController(MVPizzaDBContext dBContext)
+        {
+            dBContext.Database.EnsureCreated();
+        }
+
         public IActionResult Index()
         {
             return View();

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<MVPizza.DataAccess.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimePlaced)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfSupremes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfMeatLovers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfVeggie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfSolidGold)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddressID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimePlaced)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfSupremes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfMeatLovers)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfVeggie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfSolidGold)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrderID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OrderID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

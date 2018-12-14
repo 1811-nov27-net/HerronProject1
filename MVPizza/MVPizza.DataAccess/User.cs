@@ -10,15 +10,19 @@ namespace MVPizza.DataAccess
     {
         [Key]
         [StringLength(100)]
+
         public string Username { get; set; }
 
         [Required]
         [StringLength(100)]
+        [Display(Name ="First Name")]
         public string FirstName { get; set; }
         [StringLength(100)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        public User() { }
+        
+        ICollection<Order> Orders { get; set; }
+        ICollection<Address> Addresses { get; set; }
 
     }
 }
