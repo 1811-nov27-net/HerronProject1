@@ -1,0 +1,48 @@
+﻿@model PizzaStoreWeb.Models.OrderUI
+
+@{
+    ViewData["Title"] = "EditOrder";
+}
+
+<h1>EditOrder</h1>
+
+<h4>OrderUI</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderID" class="control-label"></label>
+                <input asp-for="OrderID" class="form-control" />
+                <span asp-validation-for="OrderID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CostBeforeTax" class="control-label"></label>
+                <input asp-for="CostBeforeTax" class="form-control" />
+                <span asp-validation-for="CostBeforeTax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalCost" class="control-label"></label>
+                <input asp-for="TotalCost" class="form-control" />
+                <span asp-validation-for="TotalCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DatePlaced" class="control-label"></label>
+                <input asp-for="DatePlaced" class="form-control" />
+                <span asp-validation-for="DatePlaced" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

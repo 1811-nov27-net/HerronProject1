@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +9,10 @@ namespace MVPizza.DataAccess
 {
     public class Address
     {
+        public Address() { }
+
         [Key]
+        [HiddenInput(DisplayValue = false)]
         public int AddressID { get; set; }
         [StringLength(100)]
         public string Username { get; set; }
@@ -19,7 +23,6 @@ namespace MVPizza.DataAccess
         public int Zip { get; set; }
 
 
-        public Address() { }
 
     }
 }

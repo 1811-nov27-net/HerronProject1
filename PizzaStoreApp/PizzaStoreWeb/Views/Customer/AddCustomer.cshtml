@@ -1,27 +1,21 @@
-﻿@model PizzaStoreApp.DataAccess.Customer
+﻿@model PizzaStoreWeb.Models.CustomerUI
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "AddCustomer";
 }
 
-<h1>Edit</h1>
+<h1>AddCustomer</h1>
 
-<h4>Customer</h4>
+<h4>CustomerUI</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="AddCustomer">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CustomerId" />
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
                 <input asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -34,12 +28,17 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FavoriteStoreId" class="control-label"></label>
-                <input asp-for="FavoriteStoreId" class="form-control" />
-                <span asp-validation-for="FavoriteStoreId" class="text-danger"></span>
+                <label asp-for="FavoriteStoreID" class="control-label"></label>
+                <input asp-for="FavoriteStoreID" class="form-control" />
+                <span asp-validation-for="FavoriteStoreID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="UserID" class="control-label"></label>
+                <input asp-for="UserID" class="form-control" />
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

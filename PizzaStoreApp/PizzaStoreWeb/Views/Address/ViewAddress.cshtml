@@ -1,4 +1,4 @@
-﻿@model PizzaStoreAppLibrary.AddressClass
+﻿@model PizzaStoreWeb.Models.AddressUI
 
 @{
     ViewData["Title"] = "ViewAddress";
@@ -7,7 +7,7 @@
 <h1>ViewAddress</h1>
 
 <div>
-    <h4>AddressClass</h4>
+    <h4>AddressUI</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -39,6 +39,18 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.State)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AddressID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AddressID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StoreID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StoreID)
         </dd>
     </dl>
 </div>
