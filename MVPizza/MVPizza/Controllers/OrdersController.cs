@@ -19,25 +19,51 @@ namespace MVPizza.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index(char? type = null, string id = "")
+        // type: n for no query, s for store id, a for address id, u (or anything else) for user id
+        // char: d for date, i for date inverted, c for cheapest, e for expensive
+        public async Task<IActionResult> Index(char type = 'n', char order = 'd', string id = "")
         {
-            if (type == null)
+            
+            if (type == 'n')
                 return View(await _context.Order.ToListAsync());
             else if(type == 's')
             {
-                return View(await _context.Order.Where(o => o.StoreName == id).ToListAsync());
+                if(order == 'd')
+                    return View(await _context.Order.Where(o => o.StoreName == id).OrderBy(o => o.TimePlaced).ToListAsync());
+                else if(order == 'i')
+                    return View(await _context.Order.Where(o => o.StoreName == id).OrderByDescending(o => o.TimePlaced).ToListAsync());
+                else if (order == 'c')
+                    return View(await _context.Order.Where(o => o.StoreName == id).OrderBy(o => o.TotalCost).ToListAsync());
+                else
+                    return View(await _context.Order.Where(o => o.StoreName == id).OrderByDescending(o => o.TotalCost).ToListAsync());
+
 
             }
             else if (type == 'a')
             {
-                return View(await _context.Order.Where(o=> o.AddressID == int.Parse(id)).ToListAsync());
+                if (order == 'd')
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderBy(o => o.TimePlaced).ToListAsync());
+                else if (order == 'i')
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderByDescending(o => o.TimePlaced).ToListAsync());
+                else if (order == 'c')
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderBy(o => o.TotalCost).ToListAsync());
+                else
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderByDescending(o => o.TotalCost).ToListAsync());
 
             }
             else
             {
-                return View(await _context.Order.Where(o=> o.Username == id).ToListAsync());
+                if (order == 'd')
+                    return View(await _context.Order.Where(o => o.Username == id).OrderBy(o => o.TimePlaced).ToListAsync());
+                else if (order == 'i')
+                    return View(await _context.Order.Where(o => o.Username == id).OrderByDescending(o => o.TimePlaced).ToListAsync());
+                else if (order == 'c')
+                    return View(await _context.Order.Where(o => o.Username == id).OrderBy(o => o.TotalCost).ToListAsync());
+                else
+                    return View(await _context.Order.Where(o => o.Username == id).OrderByDescending(o => o.TotalCost).ToListAsync());
 
             }
+
         }
 
         // GET: Orders/Details/5

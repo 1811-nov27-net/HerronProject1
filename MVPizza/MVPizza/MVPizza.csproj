@@ -18,4 +18,9 @@
     <ProjectReference Include="..\MVPizza.DataAccess\MVPizza.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Customer\" />
+  </ItemGroup>
+
 </Project>
