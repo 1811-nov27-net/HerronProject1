@@ -1,34 +1,21 @@
-﻿@using MVPizza.DataAccess
-@model User
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
 <div>
     <h1 class="display-4">Welcome to MVPizza!</h1>
-    @if (!Model.Orders.Any())
-    {
-        <p>It looks like you've never placed an order with us before. Would you like to order a <a>Solid Gold Pizza?</a></p>
-    }
-    else
-    {
+    <form asp-action="Index" method="GET" class="form-inline">
+        <label class="sr-only" for="search">Input Username:</label>
+        <input type="search" class="form-control mb-2 mr-sm-2 mb-sm-0" id="username" name="username" placeholder="Username" />
         <p>
-            Would you like to start with your <a>suggested order?</a>
+            <select id="action" name="action">
+                <option value="o">New Order</option>
+                <option value="n">Add Address</option>
+            </select>
         </p>
-    }
-
+        <button type="submit" class="btn btn-primary">Go!</button>
+    </form>
     <p>
-        <a asp-action="PlaceOrder"
-           asp-all-route-data="@(new Dictionary<string, string> { { "username", Model.Username } })">
-            Place an Order
-        </a>
+        No account? <a asp-action="NewCustomer">Create one now!</a>
     </p>
-
-    <p>
-        <a asp-action="AddAddress"
-           asp-all-route-data="@(new Dictionary<string, string> { {"username",  Model.Username} })">
-            Add an Address
-        </a>
-    </p>
-
 </div>

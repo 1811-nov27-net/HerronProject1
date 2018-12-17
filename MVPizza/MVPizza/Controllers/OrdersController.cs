@@ -95,7 +95,7 @@ namespace MVPizza.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderID,Username,StoreName,AddressID,TimePlaced,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderID,Username,StoreName,AddressID,TimePlaced,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold,TotalCost")] Order order)
         {
             if (ModelState.IsValid)
             {
