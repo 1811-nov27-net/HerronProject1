@@ -27,7 +27,7 @@ namespace PizzaStoreApp.DataAccess
         {
             Customer cust = _db.Customer.Include(c => c.CustomerAddress).First(c => c.Username == customer.Username);
             address.StoreID = _db.Store.Where(s => s.Zip == address.Zip).First().StoreId;
-            cust.CustomerAddress.Add(Map(address,customer.UserID));
+            cust.CustomerAddress.Add(Map(address));
             Save();
         }
 
@@ -218,6 +218,12 @@ namespace PizzaStoreApp.DataAccess
             Save();
         }
 
+        public void UpdateAddress(AddressClass address)
+        {
+            _db.Entry(_db.CustomerAddress.Find(address.AddressID)).CurrentValues.SetValues(Map(address));
+            Save();
+        }
+
         public static Pizza Map(PizzaClass pizzaClass, Dictionary<int, string> IngrediantDictionary)
         {
             Pizza pizza = new Pizza
@@ -263,12 +269,12 @@ namespace PizzaStoreApp.DataAccess
             };
         }
 
-        internal static CustomerAddress Map(AddressClass address, int CustomerID)
+        internal static CustomerAddress Map(AddressClass address)
         {
             return new CustomerAddress
             {
                 CustomerAddressId = address.AddressID,
-                CustomerId = CustomerID,
+                CustomerId = address.CustomerID,
                 StoreId = address.StoreID,
                 Street = address.Street,
                 Street2 = address.Apartment,
@@ -380,7 +386,8 @@ namespace PizzaStoreApp.DataAccess
                 Zip = customerAddress.Zip,
                 State = customerAddress.State,
                 AddressID = customerAddress.CustomerAddressId,
-                StoreID = customerAddress.StoreId
+                StoreID = customerAddress.StoreId,
+                CustomerID = customerAddress.CustomerId
             };
         }
 
@@ -419,5 +426,6 @@ namespace PizzaStoreApp.DataAccess
 
 
         }
+
     }
 }

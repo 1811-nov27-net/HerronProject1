@@ -13,6 +13,7 @@ namespace PizzaStoreAppLibrary
         public string State { get; set; }
         public int AddressID { get; set; }
         public int StoreID { get; set; }
+        public int CustomerID { get; set; }
         
     }
 }

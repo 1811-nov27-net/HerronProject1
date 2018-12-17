@@ -26,7 +26,7 @@ namespace PizzaStoreWeb.Models
         [Key]
         [HiddenInput(DisplayValue = false)]
         public int AddressID { get; set; }
-
+        public int CustomerID { get; set; }
         public int StoreID { get; set; }
 
     }
