@@ -19,9 +19,28 @@ namespace MVPizza.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string FirstName = "", string LastName = "")
         {
-            return View(await _context.User.ToListAsync());
+            if(FirstName == "" && LastName == "")
+                return View(await _context.User.ToListAsync()); // no search
+            else if(LastName == "")
+            {
+                var webRests = _context.User.Where(u => u.FirstName.Contains(FirstName));
+                return View(webRests);
+
+            }
+            else if(FirstName == "")
+            {
+                var webRests = _context.User.Where(u => u.LastName.Contains(LastName));
+                return View(webRests);
+
+            }
+            else                   // both FirstName and LastName search
+            {
+                var webRests = _context.User.Where(u => u.FirstName.Contains(FirstName)).Where(u => u.LastName.Contains(LastName));
+                return View(webRests);
+
+            }
         }
 
         // GET: Users/Details/5

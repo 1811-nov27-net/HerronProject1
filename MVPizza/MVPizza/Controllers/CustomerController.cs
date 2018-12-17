@@ -74,11 +74,17 @@ namespace MVPizza.Controllers
         public async Task<IActionResult> PlaceOrder([Bind("OrderID,Username,StoreName,AddressID,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold")] Order order)
         {
             var lastTime = await _context.Order.Where(o => o.Username == order.Username).OrderBy(o => o.TimePlaced).FirstAsync();
+            order.Store = await _context.Store.FirstOrDefaultAsync(s => s.StoreName == order.StoreName);
+            order.User = await _context.User.FirstOrDefaultAsync(u => u.Username == order.Username);
             if (ModelState.IsValid && order.VerifyOrder(lastTime.TimePlaced))
             {
-
-
                 _context.Add(order);
+                var store = await _context.Store.FirstOrDefaultAsync(s => s.StoreName == order.StoreName);
+                store.NumberOfVeggie -= order.NumberOfVeggie;
+                store.NumberOfSupremes -= order.NumberOfSupremes;
+                store.NumberOfMeatLovers -= order.NumberOfMeatLovers;
+                store.NumberOfSolidGold -= order.NumberOfSolidGold;
+                _context.Store.Update(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

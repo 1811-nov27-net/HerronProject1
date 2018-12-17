@@ -6,6 +6,16 @@
 
 <h1>Index</h1>
 
+<div>
+    <form asp-action="Index" method="GET" class="form-inline">
+        <label class="sr-only" for="FirstName">Search for orders from:</label>
+        <input type="search" class="form-control mb-2 mr-sm-2 mb-sm-0" id="FirstName" name="FirstName" placeholder="First Name" />
+        <label class="sr-only" for="LastName">Search for orders from:</label>
+        <input type="search" class="form-control mb-2 mr-sm-2 mb-sm-0" id="LastName" name="LastName" placeholder="Last Name" />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -22,20 +32,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Username">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Username">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Username">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Username">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Username">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Username">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
