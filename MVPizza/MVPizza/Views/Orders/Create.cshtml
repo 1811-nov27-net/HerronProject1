@@ -51,6 +51,11 @@
                 <input asp-for="NumberOfSolidGold" class="form-control" />
                 <span asp-validation-for="NumberOfSolidGold" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="TotalCost" class="control-label"></label>
+                <input asp-for="TotalCost" class="form-control" />
+                <span asp-validation-for="TotalCost" class="text-danger"></span>
+            </div>
             <div class="form-group" id="TotalPrice"></div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -78,7 +83,8 @@
             console.log("Got here")
             var orderPrice = theForm.elements["NumberOfSupremes"].value * prices['sup'] + theForm.elements[5].value * prices['meat'] +
                 theForm.elements[6].value * prices['veg'] + theForm.elements[7].value * prices['gold'];
-            document.getElementById('TotalPrice').innerHTML = "Total Price is $"+orderPrice;
+            document.getElementById('TotalPrice').innerHTML = "Total Calculated Price is $" + orderPrice;
+            theForm.elements["TotalCost"].value = orderPrice;
         }
     </script>
     }

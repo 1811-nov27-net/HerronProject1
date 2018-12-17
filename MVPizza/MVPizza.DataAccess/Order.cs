@@ -44,7 +44,7 @@ namespace MVPizza.DataAccess
 
         public bool VerifyOrder(DateTime lastOrder)
         {
-            /*
+            
             if (lastOrder == null)
             {
                 lastOrder = DateTime.Now.AddDays(-1);
@@ -59,7 +59,7 @@ namespace MVPizza.DataAccess
             TimePlaced = DateTime.Now;
             if (TotalCost > 500)
                 return false;
-            */        
+            
             return true;
         }
 

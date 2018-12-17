@@ -97,8 +97,7 @@ namespace MVPizza.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OrderID,Username,StoreName,AddressID,TimePlaced,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold")] Order order)
         {
-            // var lastTime = await _context.Order.Where(o => o.Username == order.Username).OrderBy(o => o.TimePlaced).FirstAsync();
-            if (ModelState.IsValid /*&& order.VerifyOrder(lastTime.TimePlaced)*/)
+            if (ModelState.IsValid)
             {
 
 
@@ -130,7 +129,7 @@ namespace MVPizza.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,Username,StoreName,AddressID,TimePlaced,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderID,Username,StoreName,AddressID,TimePlaced,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold,TotalCost")] Order order)
         {
             if (id != order.OrderID)
             {
