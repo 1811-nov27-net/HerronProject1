@@ -23,7 +23,7 @@ namespace PizzaStoreWeb.Controllers
         // GET: Store
         public ActionResult Index()
         {
-            return View(Repo.LoadLocations().Select());
+            return View(Repo.LoadLocations());
         }
 
         // GET: Store/Details/5
