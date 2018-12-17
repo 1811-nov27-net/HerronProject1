@@ -71,10 +71,12 @@ namespace MVPizza.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PlaceOrder([Bind("OrderID,Username,StoreName,AddressID,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold")] Order order)
+        public async Task<IActionResult> PlaceOrder([Bind("OrderID,Username,AddressID,NumberOfSupremes,NumberOfMeatLovers,NumberOfVeggie,NumberOfSolidGold")] Order order)
         {
-            var lastTime = await _context.Order.Where(o => o.Username == order.Username).OrderBy(o => o.TimePlaced).FirstAsync();
-            order.Store = await _context.Store.FirstOrDefaultAsync(s => s.StoreName == order.StoreName);
+            var lastTime = await _context.Order.Where(o => o.Username == order.Username).Where(o => o.AddressID == order.AddressID).OrderBy(o => o.TimePlaced).FirstAsync();
+            var deliveryAddress = await _context.Address.FirstOrDefaultAsync(a => a.AddressID == order.AddressID);
+            order.Store = await _context.Store.FirstOrDefaultAsync(s => s.Zip == deliveryAddress.Zip); // assume one store per zip, stores deliver anywhere in their zip
+            order.StoreName = order.Store.StoreName; // obviously
             order.User = await _context.User.FirstOrDefaultAsync(u => u.Username == order.Username);
             if (ModelState.IsValid && order.VerifyOrder(lastTime.TimePlaced))
             {

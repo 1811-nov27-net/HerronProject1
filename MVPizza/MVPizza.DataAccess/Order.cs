@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,6 +42,21 @@ namespace MVPizza.DataAccess
         public static double CostOfMeatLovers = 8;
         public static double CostOfVeggie = 7;
         public static double CostOfSolidGold = 100;
+
+        public IEnumerable<Address> PossibleAddresses;
+
+        public List<SelectListItem> Addresses
+        {
+            get
+            {
+                List<SelectListItem> ret = new List<SelectListItem>();
+                foreach (var add in PossibleAddresses)
+                {
+                    ret.Add(new SelectListItem(add.AddressID.ToString(), add.Street));
+                }
+                return ret;
+            }
+        }
 
         public bool VerifyOrder(DateTime lastOrder)
         {
