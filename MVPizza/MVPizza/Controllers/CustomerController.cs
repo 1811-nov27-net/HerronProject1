@@ -18,7 +18,7 @@ namespace MVPizza.Controllers
         }
 
 
-        public IActionResult Index(string username = "")
+        public IActionResult Index()
         {
             return RedirectToAction(nameof(Login));
         }
@@ -28,7 +28,7 @@ namespace MVPizza.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Login(string username = "")
+        public async Task<IActionResult> Login([Bind("username")] string username = "")
         {
             if (username == "")
                 return View();
@@ -45,9 +45,11 @@ namespace MVPizza.Controllers
 
 
         // GET: Orders/Create
-        public IActionResult PlaceOrder()
+        public IActionResult PlaceOrder(string username)
         {
-            return View();
+            var order = new Order();
+            order.Username = username;
+            return View(order);
         }
 
 
