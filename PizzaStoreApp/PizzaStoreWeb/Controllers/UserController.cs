@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PizzaStoreApp;
+using PizzaStoreAppLibrary;
 using PizzaStoreWeb.Models;
-using Lib = PizzaStoreAppLibrary;
 
 namespace PizzaStoreWeb.Controllers
 {
     public class UserController : Controller
     {
-        public Lib.IPizzaStoreRepo Repo { get; }
+        public IPizzaStoreRepo Repo { get; }
 
-        public UserController(Lib.IPizzaStoreRepo repo)
+        public UserController(IPizzaStoreRepo repo)
         {
             Repo = repo;
         }
@@ -43,10 +43,11 @@ namespace PizzaStoreWeb.Controllers
         {
             try
             {
-                CustomerClass user = (CustomerClass) TempData.Peek("user");
+                CustomerClass user = (CustomerClass) TempData["user"];
                 if (user == null || user.Username != username)
                     user = Repo.LoadCustomerByUsername(username);
                 Repo.CheckPassword(user, password);
+                user.PreviousOrders = (List<OrderClass>) Repo.LoadOrdersByCustomer(user);
                 TempData["user"] = user;
                 return RedirectToAction(nameof(Index));
             }
@@ -72,7 +73,7 @@ namespace PizzaStoreWeb.Controllers
             try
             {
                 if (ModelState.IsValid)
-                    Repo.AddAddressToCustomer(Mapper.Map(address), Mapper.Map((CustomerUI)TempData.Peek("user")));
+                    Repo.AddAddressToCustomer(Mapper.Map(address), (CustomerClass) TempData.Peek("user"));
 
                 return RedirectToAction(nameof(Index));
             }
