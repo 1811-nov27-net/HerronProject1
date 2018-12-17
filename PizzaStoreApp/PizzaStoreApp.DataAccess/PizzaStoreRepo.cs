@@ -397,5 +397,10 @@ namespace PizzaStoreApp.DataAccess
             return ret;
 
         }
+
+        public AddressClass LoadAddressByID(int id)
+        {
+            return Map(_db.CustomerAddress.First(a => a.CustomerAddressId == id));
+        }
     }
 }

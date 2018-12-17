@@ -21,6 +21,7 @@ namespace PizzaStoreWeb.Models
         [Key]
         [HiddenInput(DisplayValue = false)]
         public int UserID { get; set; }
+        public int FailedPasswordChecks { get; set; }
 
     }
 }

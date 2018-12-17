@@ -11,6 +11,10 @@ namespace PizzaStoreAppLibrary
         public Dictionary<string, int> Invantory = new Dictionary<string, int>();
         public int StoreID { get; set; }
 
+        public StoreClass(string name)
+        {
+            Name = name;
+        }
 
         public void Restock(string[] ingrediants, int[] amounts)
         {
