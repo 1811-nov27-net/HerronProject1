@@ -18,7 +18,7 @@ namespace MVPizza.Controllers
         }
 
 
-        public IActionResult Index(string username = "", string action = " ")
+        public async Task<IActionResult> Index(string username = "", string action = " ")
         {
             if(username == "")
                 return View();
@@ -28,7 +28,16 @@ namespace MVPizza.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(PlaceOrder), new { username });
+                try
+                {
+                    User User = await _context.User.FirstAsync(u => u.Username == username); // check to see if username exists
+                    return RedirectToAction(nameof(PlaceOrder), new { username = User.Username });
+
+                }
+                catch
+                {
+                    return View();
+                }
             }
         }
 
@@ -57,14 +66,16 @@ namespace MVPizza.Controllers
         public async Task<IActionResult> PlaceOrder(string username)
         {
             try { 
-                 var suggestedOrder = await _context.Order.Where(o => o.Username == username).OrderByDescending(o => o.TotalCost).FirstAsync();
-                 return View(suggestedOrder);
+                var suggestedOrder = await _context.Order.Where(o => o.Username == username).OrderByDescending(o => o.TotalCost).FirstAsync();
+                suggestedOrder.PossibleAddresses = await _context.Address.Where(a => a.Username == username).ToListAsync();
+                return View(suggestedOrder);
             }
             catch
             {
 
             }
-            return View(new Order() { Username = username, NumberOfSolidGold = 2 });
+            var possAdd = await _context.Address.Where(a => a.Username == username).ToListAsync();
+            return View(new Order() { Username = username, NumberOfSolidGold = 2, PossibleAddresses = possAdd });
 
         }
 

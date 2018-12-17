@@ -45,17 +45,14 @@ namespace MVPizza.DataAccess
 
         public IEnumerable<Address> PossibleAddresses;
 
-        public List<SelectListItem> Addresses
+        public List<SelectListItem> Addresses()
         {
-            get
-            {
                 List<SelectListItem> ret = new List<SelectListItem>();
                 foreach (var add in PossibleAddresses)
                 {
                     ret.Add(new SelectListItem(add.AddressID.ToString(), add.Street));
                 }
                 return ret;
-            }
         }
 
         public bool VerifyOrder(DateTime lastOrder)
