@@ -86,7 +86,9 @@ namespace PizzaStoreApp.DataAccess
             {
                 Customer NewCust = _db.Customer.First(c => c.Username == customer.Username);
                 NewCust.Password = NewPassword;
-
+                NewCust.FailedPasswordChecks = 0;
+                _db.Customer.Update(NewCust);
+                Save();
             }
             else
             {
