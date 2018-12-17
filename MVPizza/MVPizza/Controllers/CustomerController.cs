@@ -28,7 +28,7 @@ namespace MVPizza.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(PlaceOrder), username);
+                return RedirectToAction(nameof(PlaceOrder), new { username });
             }
         }
 
@@ -56,13 +56,15 @@ namespace MVPizza.Controllers
         // GET: Orders/Create
         public async Task<IActionResult> PlaceOrder(string username)
         {
-            var suggestedOrder = await _context.Order.Where(o => o.Username == username).OrderByDescending(o => o.TotalCost).FirstAsync();
-            if (suggestedOrder != null)
-            {
-                return View(suggestedOrder);
+            try { 
+                 var suggestedOrder = await _context.Order.Where(o => o.Username == username).OrderByDescending(o => o.TotalCost).FirstAsync();
+                 return View(suggestedOrder);
             }
-            else
-                return View(new Order() { Username = username, NumberOfSolidGold = 2 });
+            catch
+            {
+
+            }
+            return View(new Order() { Username = username, NumberOfSolidGold = 2 });
 
         }
 
