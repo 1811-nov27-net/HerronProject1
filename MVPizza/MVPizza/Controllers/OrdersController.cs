@@ -21,7 +21,7 @@ namespace MVPizza.Controllers
         // GET: Orders
         // type: n for no query, s for store id, a for address id, u (or anything else) for user id
         // char: d for date, i for date inverted, c for cheapest, e for expensive
-        public async Task<IActionResult> Index(char type = 'n', char order = 'd', string id = "")
+        public async Task<IActionResult> Index(char type = 'n', char order = 'd', string search = "")
         {
             
             if (type == 'n')
@@ -29,38 +29,38 @@ namespace MVPizza.Controllers
             else if(type == 's')
             {
                 if(order == 'd')
-                    return View(await _context.Order.Where(o => o.StoreName == id).OrderBy(o => o.TimePlaced).ToListAsync());
+                    return View(await _context.Order.Where(o => o.StoreName == search).OrderBy(o => o.TimePlaced).ToListAsync());
                 else if(order == 'i')
-                    return View(await _context.Order.Where(o => o.StoreName == id).OrderByDescending(o => o.TimePlaced).ToListAsync());
+                    return View(await _context.Order.Where(o => o.StoreName == search).OrderByDescending(o => o.TimePlaced).ToListAsync());
                 else if (order == 'c')
-                    return View(await _context.Order.Where(o => o.StoreName == id).OrderBy(o => o.TotalCost).ToListAsync());
+                    return View(await _context.Order.Where(o => o.StoreName == search).OrderBy(o => o.TotalCost).ToListAsync());
                 else
-                    return View(await _context.Order.Where(o => o.StoreName == id).OrderByDescending(o => o.TotalCost).ToListAsync());
+                    return View(await _context.Order.Where(o => o.StoreName == search).OrderByDescending(o => o.TotalCost).ToListAsync());
 
 
             }
             else if (type == 'a')
             {
                 if (order == 'd')
-                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderBy(o => o.TimePlaced).ToListAsync());
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(search)).OrderBy(o => o.TimePlaced).ToListAsync());
                 else if (order == 'i')
-                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderByDescending(o => o.TimePlaced).ToListAsync());
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(search)).OrderByDescending(o => o.TimePlaced).ToListAsync());
                 else if (order == 'c')
-                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderBy(o => o.TotalCost).ToListAsync());
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(search)).OrderBy(o => o.TotalCost).ToListAsync());
                 else
-                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(id)).OrderByDescending(o => o.TotalCost).ToListAsync());
+                    return View(await _context.Order.Where(o => o.AddressID == int.Parse(search)).OrderByDescending(o => o.TotalCost).ToListAsync());
 
             }
             else
             {
                 if (order == 'd')
-                    return View(await _context.Order.Where(o => o.Username == id).OrderBy(o => o.TimePlaced).ToListAsync());
+                    return View(await _context.Order.Where(o => o.Username == search).OrderBy(o => o.TimePlaced).ToListAsync());
                 else if (order == 'i')
-                    return View(await _context.Order.Where(o => o.Username == id).OrderByDescending(o => o.TimePlaced).ToListAsync());
+                    return View(await _context.Order.Where(o => o.Username == search).OrderByDescending(o => o.TimePlaced).ToListAsync());
                 else if (order == 'c')
-                    return View(await _context.Order.Where(o => o.Username == id).OrderBy(o => o.TotalCost).ToListAsync());
+                    return View(await _context.Order.Where(o => o.Username == search).OrderBy(o => o.TotalCost).ToListAsync());
                 else
-                    return View(await _context.Order.Where(o => o.Username == id).OrderByDescending(o => o.TotalCost).ToListAsync());
+                    return View(await _context.Order.Where(o => o.Username == search).OrderByDescending(o => o.TotalCost).ToListAsync());
 
             }
 

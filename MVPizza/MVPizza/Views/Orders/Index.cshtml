@@ -17,6 +17,26 @@
 
 
 <h1>Index</h1>
+<div>
+    <form asp-action="Index" method="GET" class="form-inline">
+        <label class="sr-only" for="search">Search for orders from:</label>
+        <input type="search" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" name="search" placeholder="Search" />
+        <p>
+            <select id="type" name="type">
+                <option value="s">Stores</option>
+                <option value="a">Address</option>
+                <option value="u">Username</option>
+            </select>
+            <select id="order" name="order">
+                <option value="d">Most Recent</option>
+                <option value="i">Oldest</option>
+                <option value="e">Most Expensive</option>
+                <option value="c">Least Expensive</option>
+            </select>
+        </p>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
 <p>
     <a asp-action="Create">Create New</a>
