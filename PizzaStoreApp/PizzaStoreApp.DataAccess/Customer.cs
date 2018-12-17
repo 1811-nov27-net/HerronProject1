@@ -17,6 +17,7 @@ namespace PizzaStoreApp.DataAccess
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int? FavoriteStoreId { get; set; }
+        public int FailedPasswordChecks { get; set; }
 
         public virtual ICollection<CustomerAddress> CustomerAddress { get; set; }
         public virtual ICollection<PizzaOrder> PizzaOrder { get; set; }

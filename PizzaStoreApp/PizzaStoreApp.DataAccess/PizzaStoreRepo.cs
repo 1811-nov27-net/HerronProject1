@@ -282,7 +282,6 @@ namespace PizzaStoreApp.DataAccess
             {
                 CustomerId = customer.UserID,
                 Username = customer.Username,
-                Password = customer.Password,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 FavoriteStoreId = customer.FavoriteStoreID
@@ -305,7 +304,6 @@ namespace PizzaStoreApp.DataAccess
             CustomerClass ret = new CustomerClass()
             {
                 Username = cust.Username,
-                Password = cust.Password,
                 FirstName = cust.FirstName,
                 LastName = cust.LastName,
                 UserID = cust.CustomerId,
@@ -401,6 +399,23 @@ namespace PizzaStoreApp.DataAccess
         public AddressClass LoadAddressByID(int id)
         {
             return Map(_db.CustomerAddress.First(a => a.CustomerAddressId == id));
+        }
+
+        public void CheckPassword(CustomerClass customer, string password)
+        {
+            Customer cust = _db.Customer.First(c => c.CustomerId == customer.UserID);
+            if (cust == null || cust.FailedPasswordChecks > 3)
+                throw new InvalidLoginException();
+            if(cust.Password != password)
+            {
+                cust.FailedPasswordChecks++;
+                _db.Update(cust);
+                Save();
+                throw new InvalidLoginException();
+
+            }
+
+
         }
     }
 }

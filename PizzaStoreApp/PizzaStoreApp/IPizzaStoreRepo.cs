@@ -24,6 +24,7 @@ namespace PizzaStoreAppLibrary
         void AddIngrediantToList(string AdminUsername, string AdminPassword, string IngrediantName);
         void RemoveLocation(string AdminUsername, string AdminPassword, StoreClass location);
         void AddStore(string AdminUsername, string AdminPassword, StoreClass location);
+        void CheckPassword(CustomerClass customer, string password);
         void ChangeUserPassword(string AdminUsername, string AdminPassword, CustomerClass customer, string NewPassword);
 
     }

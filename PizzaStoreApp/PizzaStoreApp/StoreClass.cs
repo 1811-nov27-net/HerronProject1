@@ -15,6 +15,7 @@ namespace PizzaStoreAppLibrary
         {
             Name = name;
         }
+        public StoreClass() { }
 
         public void Restock(string[] ingrediants, int[] amounts)
         {

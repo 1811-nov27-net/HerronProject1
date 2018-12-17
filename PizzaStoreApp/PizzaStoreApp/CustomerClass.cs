@@ -8,8 +8,6 @@ namespace PizzaStoreApp
     public class CustomerClass
     {
         public string Username { get; set; }
-        public string Password;
-        private int failedPasswordChecks;
         public List<AddressClass> Addresses { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -18,11 +16,6 @@ namespace PizzaStoreApp
         public int UserID { get; set; }
 
         
-        public CustomerClass()
-        {
-            
-            failedPasswordChecks = 0;
-        }
 
         public OrderClass SuggestOrder()
         {
@@ -36,26 +29,6 @@ namespace PizzaStoreApp
             }
         }
 
-
-        public bool CheckPassword(string testPassword)
-        {
-            if (failedPasswordChecks > 3)
-            {
-                throw new AccountLockedException();
-            }
-
-            if (testPassword == Password)
-            {
-                failedPasswordChecks = 0;
-                return true;
-            }
-            else
-            {
-                failedPasswordChecks++;
-                return false;
-            }
-        }
         
-
     }
 }

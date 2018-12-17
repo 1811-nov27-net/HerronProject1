@@ -24,7 +24,7 @@ namespace PizzaStoreWeb.Controllers
         {
             try
             {
-                CustomerUI user = (CustomerUI) TempData.Peek("user");
+                CustomerClass user = (CustomerClass) TempData.Peek("user");
                 return View(user);
             }
             catch 
@@ -43,11 +43,11 @@ namespace PizzaStoreWeb.Controllers
         {
             try
             {
-                CustomerClass user = Mapper.Map((CustomerUI) TempData.Peek("user"));
+                CustomerClass user = (CustomerClass) TempData.Peek("user");
                 if (user == null || user.Username != username)
                     user = Repo.LoadCustomerByUsername(username);
-                user.CheckPassword(password);
-                TempData["user"] = Mapper.Map(user);
+                Repo.CheckPassword(user, password);
+                TempData["user"] = user;
                 return RedirectToAction(nameof(Index));
             }
             catch
