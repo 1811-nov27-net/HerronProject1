@@ -23,13 +23,13 @@ namespace MVPizza.Controllers
         {
             if(FirstName == "" && LastName == "")
                 return View(await _context.User.ToListAsync()); // no search
-            else if(LastName == "")
+            else if(LastName == null || LastName == "")
             {
                 var webRests = _context.User.Where(u => u.FirstName.Contains(FirstName));
                 return View(webRests);
 
             }
-            else if(FirstName == "")
+            else if(FirstName == null || FirstName == "")
             {
                 var webRests = _context.User.Where(u => u.LastName.Contains(LastName));
                 return View(webRests);

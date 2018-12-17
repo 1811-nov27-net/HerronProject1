@@ -50,7 +50,7 @@ namespace MVPizza.DataAccess
                 List<SelectListItem> ret = new List<SelectListItem>();
                 foreach (var add in PossibleAddresses)
                 {
-                    ret.Add(new SelectListItem(add.AddressID.ToString(), add.Street));
+                    ret.Add(new SelectListItem(add.Street, add.AddressID.ToString()));
                 }
                 return ret;
         }
