@@ -47,18 +47,68 @@ namespace PizzaStoreWeb.Models
             };
         }
 
-        internal static CustomerClass Map(CustomerUI customerUI)
+        internal static CustomerClass Map(CustomerUI customer)
         {
-            if (customerUI == null)
+            if (customer == null)
                 return null;
             throw new NotImplementedException();
         }
 
-        internal static CustomerUI Map(CustomerClass user)
+        internal static CustomerUI Map(CustomerClass customer)
         {
-            if (user == null)
+            if (customer == null)
                 return null;
             throw new NotImplementedException();
         }
+
+        internal static StoreClass Map(StoreUI Store)
+        {
+            if (Store == null)
+                return null;
+            throw new NotImplementedException();
+        }
+
+        internal static StoreUI Map(StoreClass Store)
+        {
+            if (Store == null)
+                return null;
+            throw new NotImplementedException();
+        }
+
+
+        internal static OrderClass Map(OrderUI Order)
+        {
+            if (Order == null)
+                return null;
+            throw new NotImplementedException();
+        }
+
+        internal static OrderUI Map(OrderClass Order)
+        {
+            if (Order == null)
+                return null;
+            throw new NotImplementedException();
+        }
+
+        internal static PizzaClass Map(PizzaUI Pizza)
+        {
+            if (Pizza == null)
+                return null;
+            throw new NotImplementedException();
+        }
+
+        internal static PizzaUI Map(PizzaClass Pizza)
+        {
+            if (Pizza == null)
+                return null;
+            return new PizzaUI
+            {
+                Size = Pizza.Size,
+                Ingrediants = Pizza.Ingrediants,
+                PizzaID = Pizza.PizzaID,
+
+            };
+        }
+
     }
 }
