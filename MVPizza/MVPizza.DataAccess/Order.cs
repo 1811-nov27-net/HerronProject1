@@ -62,7 +62,7 @@ namespace MVPizza.DataAccess
             {
                 lastOrder = DateTime.Now.AddDays(-1);
             }
-            if (DateTime.Now.Hour - lastOrder.Hour > 2)
+            if (DateTime.Now.Hour - lastOrder.Hour < 2)
                 return false;
             if (NumberOfMeatLovers + NumberOfSolidGold + NumberOfSupremes + NumberOfVeggie > 12)
                 return false;

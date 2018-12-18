@@ -122,6 +122,8 @@ namespace MVPizza.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            var possAdd = await _context.Address.Where(a => a.Username == order.Username).ToListAsync();
+            order.PossibleAddresses = possAdd;
             return View(order);
         }
 
