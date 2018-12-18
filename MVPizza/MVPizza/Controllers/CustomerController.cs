@@ -103,7 +103,7 @@ namespace MVPizza.Controllers
             }
             catch
             {
-                lastTime = DateTime.Now.AddDays(-1);
+                lastTime = DateTime.Now.AddHours(-4);
                 
             }
             var deliveryAddress = await _context.Address.FirstAsync(a => a.AddressID == order.AddressID);

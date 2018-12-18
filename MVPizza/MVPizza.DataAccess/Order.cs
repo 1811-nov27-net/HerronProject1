@@ -60,7 +60,7 @@ namespace MVPizza.DataAccess
             
             if (lastOrder == null)
             {
-                lastOrder = DateTime.Now.AddDays(-1);
+                lastOrder = DateTime.Now.AddHours(-4);
             }
             if (DateTime.Now.Hour - lastOrder.Hour < 2)
                 return false;
