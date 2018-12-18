@@ -164,6 +164,18 @@ namespace PizzaStoreApp.DataAccess
             Save();
         }
 
+
+        public int GetPizzaID(HashSet<string> Ingrediants)
+        {
+            List<int> IngIdList = new List<int>();
+            foreach (var item in Ingrediants)
+            {
+                IngIdList.Add(_db.IngrediantList.First(i => i.IngrediantName == item).IngrediantId);
+            }
+
+        }
+
+
         public void RemoveCustomerAddress(AddressClass address, CustomerClass customer)
         {
             int addID = _db.CustomerAddress.Where(a => a.Street == address.Street && a.State == address.State).First().CustomerAddressId;
