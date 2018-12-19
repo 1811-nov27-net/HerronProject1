@@ -42,46 +42,46 @@ namespace PizzaStoreAppTest
             Assert.Equal(testName, SUT.Name);
         }
 
-        [Theory]
+        //[Theory]
 
-        [InlineData("Dominoes")]
-        [InlineData("Pizza Hut")]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("You lost your self esteem" +
-            "Along the way, yeah... O.o")]
-
-
-        public void NewCustomerHasNameGivenToConstructor(string testName)
-        {
-            CustomerClass SUT = new CustomerClass { Username = testName, Password = "whatever, man" };
-
-            Assert.Equal(testName, SUT.Username);
-        }
+        //[InlineData("Dominoes")]
+        //[InlineData("Pizza Hut")]
+        //[InlineData("")]
+        //[InlineData(null)]
+        //[InlineData("You lost your self esteem" +
+        //    "Along the way, yeah... O.o")]
 
 
-        [Theory]
+        //public void NewCustomerHasNameGivenToConstructor(string testName)
+        //{
+        //    CustomerClass SUT = new CustomerClass { Username = testName, Password = "whatever, man" };
 
-        [InlineData("Dominoes", "abc123", "abc123", true)]
-        [InlineData("", "", "", true)]
-        [InlineData("L00ser", "My Cat Henrey", "password", false)]
-        [InlineData("Admin", "password", "password", true)]
-        [InlineData("Space Man", "", " ", false)]
-        [InlineData("Nothing", "", null, false)]
-        [InlineData("Null?", null, null, true)]
+        //    Assert.Equal(testName, SUT.Username);
+        //}
 
 
-        public void NewCustomerPasswordCheck(string testName, string testPW, string testInput, bool expected)
-        {
-            // arrange
-            CustomerClass SUT = new CustomerClass{Username = testName, Password = testPW};
+        //[Theory]
 
-            // act
-            bool result = SUT.CheckPassword(testInput);
+        //[InlineData("Dominoes", "abc123", "abc123", true)]
+        //[InlineData("", "", "", true)]
+        //[InlineData("L00ser", "My Cat Henrey", "password", false)]
+        //[InlineData("Admin", "password", "password", true)]
+        //[InlineData("Space Man", "", " ", false)]
+        //[InlineData("Nothing", "", null, false)]
+        //[InlineData("Null?", null, null, true)]
 
-            // assert
-            Assert.Equal(result, expected);
-        }
+
+        //public void NewCustomerPasswordCheck(string testName, string testPW, string testInput, bool expected)
+        //{
+        //    // arrange
+        //    CustomerClass SUT = new CustomerClass{Username = testName, Password = testPW};
+
+        //    // act
+        //    bool result = SUT.CheckPassword(testInput);
+
+        //    // assert
+        //    Assert.Equal(result, expected);
+        //}
 
         [Theory]
         [InlineData("Username",null)]

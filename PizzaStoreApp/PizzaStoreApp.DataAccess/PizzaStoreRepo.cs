@@ -39,7 +39,7 @@ namespace PizzaStoreApp.DataAccess
 
         public void AddIngrediantToList(string AdminUsername, string AdminPassword, string IngrediantName)
         {
-            IngrediantList ig = new IngrediantList
+            Ingrediants ig = new Ingrediants
             {
                 IngrediantName = IngrediantName
             };
@@ -145,9 +145,8 @@ namespace PizzaStoreApp.DataAccess
                 .Include(po => po.Store)
                 .Include(po => po.PizzasInOrder)
                     .ThenInclude(PiO => PiO.Pizza)
-                        .ThenInclude(p => p.IngrediantsOnPizza)
-                            .ThenInclude(IoP => IoP.Ingrediant)
-                                .ThenInclude(I => I.IngrediantName)
+                         .ThenInclude(P => P.Ingrediants)
+                             .ThenInclude(I => I.IngrediantName)
                 .Where(o => o.StoreId == locID).ToList();
             List<OrderClass> ret = new List<OrderClass>();
             foreach (var order in temp)
@@ -167,28 +166,39 @@ namespace PizzaStoreApp.DataAccess
 
         public int GetPizzaID(HashSet<string> Ingrediants, PizzaClass.PizzaSize size)
         {
-            Dictionary<int, string> IngDict = GenerateIngrediantDictionary();
             HashSet<Pizza> ListOfPizzas = _db.Pizza
                     .Where(p => p.Size == (int) size)
-                    .Where(p => p.IngrediantsOnPizza.All(
-                        IoP => Ingrediants.Contains(
-                            IoP.Ingrediant.IngrediantName)
-                    )).ToHashSet(); // returns a HashSet of pizzas where all the ingrediants are on the list
-            if (ListOfPizzas.Count == 0)
+                    .Where(p => p.Ingrediants.All(
+                        i => Ingrediants.Contains(
+                            i.IngrediantName)
+                    ))      // pizzas where all the ingrediants are on the list
+                    .Where(p => Ingrediants.All(
+                        i => p.Ingrediants.Select(j => j.IngrediantName).Contains(i)
+                     ))     // pizzas where all the ingrediants in the HashSet are on the Pizza
+                    .ToHashSet(); 
+            if (ListOfPizzas.Count == 0)   // No such pizza? Make one, then return the id of the new pizza.
             {
-                _db.Pizza.Add(Map(new PizzaClass(size, Ingrediants),IngDict));
+                _db.Pizza.Add(Map(new PizzaClass(size, Ingrediants), GenerateIngrediantDictionary()));
                 return GetPizzaID(Ingrediants, size);
             }
-            foreach (Pizza pizza in ListOfPizzas)
-            {
-                foreach (string ingredant in pizza.IngrediantsOnPizza.Select(IoP => IngDict[IoP.IngrediantId]))
-                {
-                    if (!Ingrediants.Contains(ingredant))
-                        ListOfPizzas.Remove(pizza);
-                }
-            }
+            if (ListOfPizzas.Count > 1)
+                throw new DatabaseBadException(); // can't have more than one Pizza with the same set of toppings; something has gone wrong.
+            return ListOfPizzas.First().PizzaId;
 
-            return 0;
+            //foreach (Pizza pizza in ListOfPizzas)
+            //{
+            //    foreach (string ingredant in pizza.Ingrediants.Select(I => I.IngrediantName))
+            //    {
+            //        if (!Ingrediants.Contains(ingredant))
+            //            ListOfPizzas.Remove(pizza);
+            //    }
+            //}
+            //if (ListOfPizzas.Count == 0)
+            //{
+            //    _db.Pizza.Add(Map(new PizzaClass(size, Ingrediants), GenerateIngrediantDictionary()));
+            //    return GetPizzaID(Ingrediants, size);
+            //}
+
            
         }
 
@@ -264,7 +274,7 @@ namespace PizzaStoreApp.DataAccess
 
             foreach (var ingrediant in pizzaClass.Ingrediants)
             {
-                pizza.IngrediantsOnPizza.Add(new IngrediantsOnPizza { IngrediantId = IngrediantDictionary.FirstOrDefault(i => i.Value == ingrediant).Key, PizzaId = pizzaClass.PizzaID });
+                pizza.Ingrediants.Add(new Ingrediants { IngrediantId = IngrediantDictionary.FirstOrDefault(i => i.Value == ingrediant).Key, IngrediantName = ingrediant });
             }
 
             return pizza;
@@ -272,9 +282,9 @@ namespace PizzaStoreApp.DataAccess
         public static PizzaClass Map(Pizza pizza)
         {
             HashSet<string> ingrediants = new HashSet<string>();
-            foreach (var IoP in pizza.IngrediantsOnPizza)
+            foreach (var item in pizza.Ingrediants)
             {
-                ingrediants.Add(IoP.Ingrediant.IngrediantName);
+                ingrediants.Add(item.IngrediantName);
             }
             PizzaClass pizzaClass = new PizzaClass((PizzaClass.PizzaSize)pizza.Size, ingrediants)
             {
