@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PizzaStoreApp.DataAccess
 {
@@ -10,7 +11,7 @@ namespace PizzaStoreApp.DataAccess
             Ingrediants = new HashSet<Ingrediants>();
             PizzasInOrder = new HashSet<PizzasInOrder>();
         }
-
+        [Key]
         public int PizzaId { get; set; }
         public int Size { get; set; }
         public decimal Cost { get; set; }
