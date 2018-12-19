@@ -167,7 +167,7 @@ namespace PizzaStoreApp.DataAccess
         public int GetPizzaID(HashSet<string> Ingrediants, PizzaClass.PizzaSize size)
         {
             HashSet<Pizza> ListOfPizzas = _db.Pizza
-                    .Where(p => p.Size == (int) size)
+                    .Where(p => p.Size == (int) size)       //size matters, for PizzaIds
                     .Where(p => p.Ingrediants.All(
                         i => Ingrediants.Contains(
                             i.IngrediantName)
