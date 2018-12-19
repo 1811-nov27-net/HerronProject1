@@ -7,7 +7,7 @@ namespace PizzaStoreApp.DataAccess
     {
         public Pizza()
         {
-            IngrediantsOnPizza = new HashSet<IngrediantsOnPizza>();
+            Ingrediants = new HashSet<Ingrediants>();
             PizzasInOrder = new HashSet<PizzasInOrder>();
         }
 
@@ -15,7 +15,7 @@ namespace PizzaStoreApp.DataAccess
         public int Size { get; set; }
         public decimal Cost { get; set; }
 
-        public virtual ICollection<IngrediantsOnPizza> IngrediantsOnPizza { get; set; }
+        public virtual ICollection<Ingrediants> Ingrediants { get; set; }
         public virtual ICollection<PizzasInOrder> PizzasInOrder { get; set; }
     }
 }

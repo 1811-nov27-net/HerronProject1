@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace PizzaStoreApp.DataAccess
 {
-    public partial class IngrediantList
+    public partial class Ingrediants
     {
-        public IngrediantList()
+        public Ingrediants()
         {
-            IngrediantsOnPizza = new HashSet<IngrediantsOnPizza>();
+            Pizzas = new HashSet<Pizza>();
             Invantory = new HashSet<Invantory>();
         }
 
         public int IngrediantId { get; set; }
         public string IngrediantName { get; set; }
 
-        public virtual ICollection<IngrediantsOnPizza> IngrediantsOnPizza { get; set; }
+        public virtual ICollection<Pizza> Pizzas { get; set; }
         public virtual ICollection<Invantory> Invantory { get; set; }
     }
 }

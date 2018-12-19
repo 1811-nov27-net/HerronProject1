@@ -18,7 +18,7 @@ namespace PizzaStoreAppLibrary
         IEnumerable<OrderClass> LoadOrdersByLocation(StoreClass location);
         IEnumerable<OrderClass> LoadOrdersByCustomer(CustomerClass customer);
         void PlaceOrder(OrderClass order);
-        int GetPizzaID(HashSet<string> Ingrediants);
+        int GetPizzaID(HashSet<string> Ingrediants, PizzaClass.PizzaSize size);
         void Save();
         void UpdateLocation(StoreClass location);
         void UpdateCustomer(CustomerClass customer);

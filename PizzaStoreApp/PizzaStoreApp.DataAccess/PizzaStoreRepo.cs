@@ -165,14 +165,31 @@ namespace PizzaStoreApp.DataAccess
         }
 
 
-        public int GetPizzaID(HashSet<string> Ingrediants)
+        public int GetPizzaID(HashSet<string> Ingrediants, PizzaClass.PizzaSize size)
         {
-            List<int> IngIdList = new List<int>();
-            foreach (var item in Ingrediants)
+            Dictionary<int, string> IngDict = GenerateIngrediantDictionary();
+            HashSet<Pizza> ListOfPizzas = _db.Pizza
+                    .Where(p => p.Size == (int) size)
+                    .Where(p => p.IngrediantsOnPizza.All(
+                        IoP => Ingrediants.Contains(
+                            IoP.Ingrediant.IngrediantName)
+                    )).ToHashSet(); // returns a HashSet of pizzas where all the ingrediants are on the list
+            if (ListOfPizzas.Count == 0)
             {
-                IngIdList.Add(_db.IngrediantList.First(i => i.IngrediantName == item).IngrediantId);
+                _db.Pizza.Add(Map(new PizzaClass(size, Ingrediants),IngDict));
+                return GetPizzaID(Ingrediants, size);
+            }
+            foreach (Pizza pizza in ListOfPizzas)
+            {
+                foreach (string ingredant in pizza.IngrediantsOnPizza.Select(IoP => IngDict[IoP.IngrediantId]))
+                {
+                    if (!Ingrediants.Contains(ingredant))
+                        ListOfPizzas.Remove(pizza);
+                }
             }
 
+            return 0;
+           
         }
 
 
