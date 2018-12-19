@@ -20,9 +20,4 @@
     <ProjectReference Include="..\PizzaStoreApp\PizzaStoreAppLibrary.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Views\Admin\" />
-  </ItemGroup>
-
 </Project>
