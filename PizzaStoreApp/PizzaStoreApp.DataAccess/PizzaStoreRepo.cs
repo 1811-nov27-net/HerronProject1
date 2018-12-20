@@ -110,12 +110,12 @@ namespace PizzaStoreApp.DataAccess
         
         public IEnumerable<CustomerClass> LoadCustomerByName(string FirstName, string LastName)
         {
-            return Map(_db.Customer.Where(c => c.FirstName == FirstName && c.LastName == LastName).AsNoTracking());
+            return Map(_db.Customer.Include(c => c.CustomerAddress).Where(c => c.FirstName == FirstName && c.LastName == LastName).AsNoTracking());
         }
 
         public CustomerClass LoadCustomerByUsername(string username)
         {
-            return Map(_db.Customer.First(c => c.Username == username));
+            return Map(_db.Customer.Include(c => c.CustomerAddress).First(c => c.Username == username));
         }
 
         public IEnumerable<StoreClass> LoadLocations()
@@ -160,7 +160,9 @@ namespace PizzaStoreApp.DataAccess
         public void PlaceOrder(OrderClass order)
         {
             Dictionary<int, string> dict = GenerateIngrediantDictionary();
-            _db.Add(Map(order, dict));
+            PizzaOrder newOrder = Map(order, dict);
+
+            _db.Add(newOrder);
             Save();
         }
 
@@ -426,7 +428,22 @@ namespace PizzaStoreApp.DataAccess
                 CustomerAddressId = order.DeliveryAddress.AddressID
 
             };
-
+            foreach (PizzaClass zaa in order.pizzas)
+            {
+                if (ret.PizzasInOrder.Where(PiO => PiO.PizzaId == zaa.PizzaID).Count() == 0)
+                {
+                    ret.PizzasInOrder.Add(new PizzasInOrder
+                    {
+                        PizzaId = zaa.PizzaID,
+                        PizzaOrderId = ret.StoreId,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    ret.PizzasInOrder.First(PiO => PiO.PizzaId == zaa.PizzaID).Quantity++;
+                }
+            }
             return ret;
 
         }
