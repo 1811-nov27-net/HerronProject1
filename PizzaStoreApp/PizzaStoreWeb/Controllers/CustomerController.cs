@@ -4,11 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PizzaStoreAppLibrary;
 
 namespace PizzaStoreWeb.Controllers
 {
     public class CustomerController : Controller
     {
+        public IPizzaStoreRepo Repo { get; }
+
+        public CustomerController(IPizzaStoreRepo repo)
+        {
+            Repo = repo;
+        }
+
         // GET: Customer
         public ActionResult Index()
         {

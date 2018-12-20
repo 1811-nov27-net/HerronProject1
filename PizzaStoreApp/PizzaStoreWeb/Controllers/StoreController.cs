@@ -4,15 +4,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PizzaStoreAppLibrary;
+using PizzaStoreWeb.Models;
 
 namespace PizzaStoreWeb.Controllers
 {
     public class StoreController : Controller
     {
+        public IPizzaStoreRepo Repo { get; }
+
+        public StoreController(IPizzaStoreRepo repo)
+        {
+            Repo = repo;
+        }
+
         // GET: Store
         public ActionResult Index()
         {
-            return View();
+            List<StoreClass> storeClasses = Repo.LoadLocations().ToList();
+            List<StoreUI> storeUIs = new List<StoreUI>();
+            foreach (var store in storeClasses)
+            {
+                storeUIs.Add(Mapper.Map(store));
+            }
+            return View(storeUIs);
         }
 
         // GET: Store/Details/5

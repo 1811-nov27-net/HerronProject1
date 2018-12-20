@@ -65,14 +65,26 @@ namespace PizzaStoreWeb.Models
         {
             if (Store == null)
                 return null;
-            throw new NotImplementedException();
+            return new StoreClass
+            {
+                StoreID = Store.StoreID,
+                Name = Store.Name,
+                Invantory = Store.Invantory,
+                Address = Map(Store.Address)
+            };
         }
 
         internal static StoreUI Map(StoreClass Store)
         {
             if (Store == null)
                 return null;
-            throw new NotImplementedException();
+            return new StoreUI
+            {
+                StoreID = Store.StoreID,
+                Name = Store.Name,
+                Invantory = Store.Invantory,
+                Address = Map(Store.Address)
+            };
         }
 
 
