@@ -165,16 +165,26 @@ namespace PizzaStoreApp.DataAccess
         }
 
 
-        public int GetPizzaID(HashSet<string> Ingrediants)
+        public int GetPizzaID(HashSet<string> Ingrediants, PizzaClass.PizzaSize size)
         {
-            List<int> IngIdList = new List<int>();
-            foreach (var item in Ingrediants)
+            HashSet<Pizza> ListOfPizzas = _db.Pizza
+                    .Where(p => p.Size == (int)size)       //size matters, for PizzaIds
+                    .Where(p => p.IngrediantsOnPizza.All(
+                        iop => Ingrediants.Contains(
+                            iop.Ingrediant.IngrediantName)
+                    ))      // pizzas where all the ingrediants are on the list
+                    .Where(p => Ingrediants.All(
+                        i => p.IngrediantsOnPizza.Select(j => j.Ingrediant.IngrediantName).Contains(i)
+                     ))     // pizzas where all the ingrediants in the HashSet are on the Pizza
+                    .ToHashSet();
+            if (ListOfPizzas.Count == 0)   // No such pizza? Make one, then return the id of the new pizza.
             {
-                IngIdList.Add(_db.IngrediantList.First(i => i.IngrediantName == item).IngrediantId);
+                _db.Pizza.Add(Map(new PizzaClass(size, Ingrediants), GenerateIngrediantDictionary()));
+                return GetPizzaID(Ingrediants, size);
             }
-
-            return 0;
-
+            if (ListOfPizzas.Count > 1)
+                throw new DatabaseBadException(); // can't have more than one Pizza with the same set of toppings; something has gone wrong.
+            return ListOfPizzas.First().PizzaId;
         }
 
 
