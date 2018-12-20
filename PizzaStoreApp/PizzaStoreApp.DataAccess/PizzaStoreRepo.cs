@@ -430,7 +430,7 @@ namespace PizzaStoreApp.DataAccess
             };
             foreach (PizzaClass zaa in order.pizzas)
             {
-                if (ret.PizzasInOrder.Where(PiO => PiO.PizzaId == zaa.PizzaID).Count() == 0)
+                if (ret.PizzasInOrder.Where(PiO => PiO.PizzaId == zaa.PizzaID).Count() != 1)
                 {
                     ret.PizzasInOrder.Add(new PizzasInOrder
                     {
