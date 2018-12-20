@@ -14,8 +14,9 @@ namespace PizzaStoreApp
         public int? FavoriteStoreID { get; set; }
         public List<OrderClass> PreviousOrders = new List<OrderClass>();
         public int UserID { get; set; }
+        public int FailedPasswordChecks { get; set; }
 
-        
+
 
         public OrderClass SuggestOrder()
         {

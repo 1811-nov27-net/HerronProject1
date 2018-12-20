@@ -23,5 +23,10 @@ namespace PizzaStoreWeb.Models
         public int UserID { get; set; }
         public int FailedPasswordChecks { get; set; }
 
+        public OrderUI SuggestedOrder { get; set; }
+
+        public List<AddressUI> Addresses { get; set; }
+        public List<OrderUI> Orders { get; set; }
+
     }
 }

@@ -316,7 +316,8 @@ namespace PizzaStoreApp.DataAccess
                 Username = customer.Username,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
-                FavoriteStoreId = customer.FavoriteStoreID
+                FavoriteStoreId = customer.FavoriteStoreID,
+                FailedPasswordChecks = customer.FailedPasswordChecks
             };
         }
 
@@ -339,7 +340,8 @@ namespace PizzaStoreApp.DataAccess
                 FirstName = cust.FirstName,
                 LastName = cust.LastName,
                 UserID = cust.CustomerId,
-                FavoriteStoreID = cust.FavoriteStoreId
+                FavoriteStoreID = cust.FavoriteStoreId,
+                FailedPasswordChecks = cust.FailedPasswordChecks
             };
 
             List<CustomerAddress> adds = cust.CustomerAddress.ToList();

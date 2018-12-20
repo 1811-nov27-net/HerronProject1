@@ -51,14 +51,54 @@ namespace PizzaStoreWeb.Models
         {
             if (customer == null)
                 return null;
-            throw new NotImplementedException();
+            CustomerClass cust = new CustomerClass()
+            {
+                Username = customer.Username,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                FavoriteStoreID = customer.FavoriteStoreID,
+                FailedPasswordChecks = customer.FailedPasswordChecks,
+                UserID = customer.UserID
+            };
+
+            foreach (var add in customer.Addresses)
+            {
+                cust.Addresses.Add(Map(add));
+            }
+
+            foreach (var order in customer.Orders)
+            {
+                cust.PreviousOrders.Add(Map(order));
+            }
+
+            return cust;
         }
 
         internal static CustomerUI Map(CustomerClass customer)
         {
             if (customer == null)
                 return null;
-            throw new NotImplementedException();
+            CustomerUI cust = new CustomerUI()
+            {
+                Username = customer.Username,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                FavoriteStoreID = customer.FavoriteStoreID,
+                FailedPasswordChecks = customer.FailedPasswordChecks,
+                UserID = customer.UserID
+            };
+
+            foreach (var add in customer.Addresses)
+            {
+                cust.Addresses.Add(Map(add));
+            }
+
+            foreach (var order in customer.PreviousOrders)
+            {
+                cust.Orders.Add(Map(order));
+            }
+
+            return cust;
         }
 
         internal static StoreClass Map(StoreUI Store)
