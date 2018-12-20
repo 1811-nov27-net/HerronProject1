@@ -92,21 +92,51 @@ namespace PizzaStoreWeb.Models
         {
             if (Order == null)
                 return null;
-            throw new NotImplementedException();
+            OrderClass ret = new OrderClass()
+            {
+                OrderID = Order.OrderID,
+                DeliveryAddress = Map(Order.DeliveryAddress),
+                Store = Map(Order.Store),
+                Customer = Map(Order.Customer),
+                DatePlaced = Order.DatePlaced
+            };
+            foreach (var zaa in Order.pizzas)
+            {
+                ret.pizzas.Add(Map(zaa));
+            }
+            ret.UpdateTotal();
+            return ret;
         }
 
         internal static OrderUI Map(OrderClass Order)
         {
             if (Order == null)
                 return null;
-            throw new NotImplementedException();
+            OrderUI ret = new OrderUI()
+            {
+                OrderID = Order.OrderID,
+                DeliveryAddress = Map(Order.DeliveryAddress),
+                Store = Map(Order.Store),
+                Customer = Map(Order.Customer),
+                CostBeforeTax = Order.CostBeforeTax,
+                TotalCost = Order.TotalCost,
+                DatePlaced = Order.DatePlaced
+            };
+            foreach (var zaa in Order.pizzas)
+            {
+                ret.pizzas.Add(Map(zaa));
+            }
+            return ret;
         }
 
         internal static PizzaClass Map(PizzaUI Pizza)
         {
             if (Pizza == null)
                 return null;
-            throw new NotImplementedException();
+            PizzaClass zaa = new PizzaClass(Pizza.Size, Pizza.Ingrediants);
+            if (Pizza.PizzaID != 0)
+                zaa.PizzaID = Pizza.PizzaID;
+            return zaa;
         }
 
         internal static PizzaUI Map(PizzaClass Pizza)
