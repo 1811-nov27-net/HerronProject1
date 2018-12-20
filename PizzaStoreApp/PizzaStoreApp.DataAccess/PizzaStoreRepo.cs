@@ -161,7 +161,6 @@ namespace PizzaStoreApp.DataAccess
         {
             Dictionary<int, string> dict = GenerateIngrediantDictionary();
             PizzaOrder newOrder = Map(order, dict);
-
             _db.Add(newOrder);
             Save();
         }
