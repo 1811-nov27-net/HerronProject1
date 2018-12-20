@@ -4,32 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PizzaStoreAppLibrary;
-using PizzaStoreWeb.Models;
 
 namespace PizzaStoreWeb.Controllers
 {
     public class StoreController : Controller
     {
-        public IPizzaStoreRepo Repo { get; set; }
-
-        public StoreController(IPizzaStoreRepo repo)
-        {
-            Repo = repo;
-        }
-        
-        
-        
         // GET: Store
         public ActionResult Index()
         {
-            return View(Repo.LoadLocations());
+            return View();
         }
 
         // GET: Store/Details/5
         public ActionResult Details(int id)
         {
-
             return View();
         }
 
@@ -42,14 +30,11 @@ namespace PizzaStoreWeb.Controllers
         // POST: Store/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(StoreUI store)
+        public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-
-                }
+                // TODO: Add insert logic here
 
                 return RedirectToAction(nameof(Index));
             }

@@ -1,16 +1,16 @@
 ﻿@model PizzaStoreWeb.Models.CustomerUI
 
 @{
-    ViewData["Title"] = "AddCustomer";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>AddCustomer</h1>
+<h1>Edit</h1>
 
 <h4>CustomerUI</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddCustomer">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
@@ -38,7 +38,12 @@
                 <span asp-validation-for="UserID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="FailedPasswordChecks" class="control-label"></label>
+                <input asp-for="FailedPasswordChecks" class="form-control" />
+                <span asp-validation-for="FailedPasswordChecks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -48,6 +53,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

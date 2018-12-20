@@ -1,10 +1,10 @@
 ﻿@model PizzaStoreWeb.Models.CustomerUI
 
 @{
-    ViewData["Title"] = "ViewCustomer";
+    ViewData["Title"] = "Details";
 }
 
-<h1>ViewCustomer</h1>
+<h1>Details</h1>
 
 <div>
     <h4>CustomerUI</h4>
@@ -39,6 +39,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.UserID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FailedPasswordChecks)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FailedPasswordChecks)
         </dd>
     </dl>
 </div>
