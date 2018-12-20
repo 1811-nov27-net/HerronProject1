@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PizzaStoreApp.DataAccess
 {
@@ -11,7 +12,10 @@ namespace PizzaStoreApp.DataAccess
             Invantory = new HashSet<Invantory>();
         }
 
+        [Key]
         public int IngrediantId { get; set; }
+        [Required]
+        [MaxLength(100)]
         public string IngrediantName { get; set; }
 
         public virtual ICollection<Pizza> Pizzas { get; set; }

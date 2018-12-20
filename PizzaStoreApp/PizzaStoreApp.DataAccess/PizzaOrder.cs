@@ -17,6 +17,7 @@ namespace PizzaStoreApp.DataAccess
         public int StoreId { get; set; }
         public int CustomerId { get; set; }
         public int CustomerAddressId { get; set; }
+        [Range(0,500)]
         public decimal TotalDue { get; set; }
         public DateTime DatePlaced { get; set; }
 
