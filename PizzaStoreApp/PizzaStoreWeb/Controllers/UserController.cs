@@ -20,46 +20,108 @@ namespace PizzaStoreWeb.Controllers
         }
 
 
-        public IActionResult Index()
-        {
-            try
-            {
-                CustomerClass user = (CustomerClass) TempData.Peek("user");
-                return View(user);
-            }
-            catch 
-            {
-                return RedirectToAction(nameof(Login));
 
+        public ActionResult Index(string ans = "", string username = "")
+        {
+            if (username == "")
+                return View();
+            else if (ans == "a")
+            {
+                try
+                {
+                    CustomerClass User = Repo.LoadCustomerByUsername(username); // check to see if username exists
+
+                    return RedirectToAction(nameof(AddAddress), new { username = User.Username });
+
+                }
+                catch
+                {
+
+                    return View();
+                }
+            }
+            else
+            {
+                try
+                {
+                    CustomerClass User = Repo.LoadCustomerByUsername(username); // check to see if username exists
+                    TempData["user"] = username;
+                    return RedirectToAction(nameof(PlaceOrder));
+
+                }
+                catch
+                {
+                    return View();
+                }
             }
         }
 
-        public IActionResult Login()
+        private ActionResult PlaceOrder()
         {
-            return View();
+            CustomerClass User = Repo.LoadCustomerByUsername((string)TempData["user"]);
+            User.PreviousOrders = (List<OrderClass>)Repo.LoadOrdersByCustomer(User);
+            CustomerUI customer = Mapper.Map(User);
+            if (customer.SuggestedOrder == null)
+            {
+                OrderUI order = new OrderUI();
+                order.Customer = customer;
+                return View(order);
+            }
+            List<int> RecentStoreZips = User.PreviousOrders.Where(po => po.DatePlaced.Subtract(DateTime.Now) < TimeSpan.FromHours(2)).Select(po => po.Store.Address.Zip).ToList();
+            ViewData["addresses"] = customer.Addresses.Where(a => !RecentStoreZips.Contains(a.Zip));
+            return View(customer.SuggestedOrder);
         }
 
-        public IActionResult Login(string username, string password)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PlaceOrder(OrderUI order)
         {
             try
             {
-                CustomerClass user = (CustomerClass) TempData["user"];
-                if (user == null || user.Username != username)
-                    user = Repo.LoadCustomerByUsername(username);
-                Repo.CheckPassword(user, password);
-                user.PreviousOrders = (List<OrderClass>) Repo.LoadOrdersByCustomer(user);
-                TempData["user"] = user;
+                if (ModelState.IsValid)
+                {
+                    OrderClass TheOrder = Mapper.Map(order);
+                    TheOrder.VerifyOrder();
+                    Repo.PlaceOrder(TheOrder);
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception)
             {
 
-                return View();
+                return View(order);
             }
+
         }
+
+        //public IActionResult Login()
+        //{
+        //    return View();
+        //}
+
+        //public IActionResult Login(string username, string password)
+        //{
+        //    try
+        //    {
+        //        CustomerClass user = Repo.LoadCustomerByUsername(username);
+        //        Repo.CheckPassword(user, password);
+        //        TempData["user"] = username;
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+
+        //        return View();
+        //    }
+        //}
 
 
         // GET: Address/Create
+
+
+        
+
+
         public ActionResult AddAddress()
         {
             return View();
@@ -73,7 +135,7 @@ namespace PizzaStoreWeb.Controllers
             try
             {
                 if (ModelState.IsValid)
-                    Repo.AddAddressToCustomer(Mapper.Map(address), (CustomerClass) TempData.Peek("user"));
+                    Repo.AddAddressToCustomer(Mapper.Map(address), (CustomerClass)TempData.Peek("user"));
 
                 return RedirectToAction(nameof(Index));
             }

@@ -26,7 +26,9 @@ namespace PizzaStoreApp
             }
             else
             {
-                return PreviousOrders.OrderByDescending(o => o.DatePlaced).First();
+                OrderClass suggestion =  PreviousOrders.OrderByDescending(o => o.TotalCost).First();
+                suggestion.OrderID = 0;
+                return suggestion;
             }
         }
 

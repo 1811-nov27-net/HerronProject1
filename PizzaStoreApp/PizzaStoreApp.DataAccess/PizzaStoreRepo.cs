@@ -161,6 +161,7 @@ namespace PizzaStoreApp.DataAccess
         {
             Dictionary<int, string> dict = GenerateIngrediantDictionary();
             PizzaOrder newOrder = Map(order, dict);
+            newOrder.PizzaOrderId = _db.PizzaOrder.Max(po => po.PizzaOrderId) + 1;
             _db.Add(newOrder);
             Save();
         }

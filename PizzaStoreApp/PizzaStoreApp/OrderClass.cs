@@ -52,14 +52,11 @@ namespace PizzaStoreAppLibrary
 
         public void VerifyOrder()
         {
-            DateTime? recent = Customer.PreviousOrders.Where(o => o.DeliveryAddress.AddressID == DeliveryAddress.AddressID).OrderBy(o => o.DatePlaced).First().DatePlaced;
-            DateTime compare = recent ?? DateTime.Now.AddDays(-1); //Null value might be returned if the customer has never ordered from this store before. In this case, say "yesterday"
+            UpdateTotal();
             if (_totalCost > 500)
                 throw new OrderTooExpensiveException();
             if (pizzas.Count > 12)
                 throw new OrderTooLargeException();
-            if (DateTime.Now.Hour - compare.Hour < 2)
-                throw new OrderTooSoonException();
         }
 
 

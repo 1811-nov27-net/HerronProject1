@@ -98,6 +98,8 @@ namespace PizzaStoreWeb.Models
                 cust.Orders.Add(Map(order));
             }
 
+            cust.SuggestedOrder = Map(customer.SuggestOrder());
+
             return cust;
         }
 
