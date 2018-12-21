@@ -41,34 +41,38 @@ namespace PizzaStoreWeb.Controllers
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CustomerUI customer)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (!ModelState.IsValid)
+                    return View(customer);
+
+                Repo.AddCustomer(Mapper.Map(customer));
 
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(customer);
             }
         }
 
         // GET: Customer/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string username)
         {
+            CustomerUI customer = Mapper.Map(Repo.LoadCustomerByUsername(username));
             return View();
         }
 
         // POST: Customer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(CustomerUI customer)
         {
             try
             {
-                // TODO: Add update logic here
+
 
                 return RedirectToAction(nameof(Index));
             }
