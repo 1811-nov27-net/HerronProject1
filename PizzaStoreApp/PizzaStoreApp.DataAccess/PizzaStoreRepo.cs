@@ -470,5 +470,9 @@ namespace PizzaStoreApp.DataAccess
 
         }
 
+        public StoreClass LoadLocationByID(int id)
+        {
+            return Map(_db.Store.First(s => s.StoreId == id));
+        }
     }
 }

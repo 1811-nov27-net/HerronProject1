@@ -59,16 +59,19 @@ namespace PizzaStoreWeb.Controllers
         private ActionResult PlaceOrder()
         {
             CustomerClass User = Repo.LoadCustomerByUsername((string)TempData["user"]);
+            
             User.PreviousOrders = (List<OrderClass>)Repo.LoadOrdersByCustomer(User);
             CustomerUI customer = Mapper.Map(User);
             if (customer.SuggestedOrder == null)
             {
                 OrderUI order = new OrderUI();
                 order.Customer = customer;
+                TempData["order"] = order;
                 return View(order);
             }
             List<int> RecentStoreZips = User.PreviousOrders.Where(po => po.DatePlaced.Subtract(DateTime.Now) < TimeSpan.FromHours(2)).Select(po => po.Store.Address.Zip).ToList();
             customer.SuggestedOrder.PossibleAddresses = customer.Addresses.Where(a => !RecentStoreZips.Contains(a.Zip)).ToList();
+            TempData["order"] = customer.SuggestedOrder;
             return View(customer.SuggestedOrder);
         }
 
@@ -80,6 +83,9 @@ namespace PizzaStoreWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    order.Customer = Mapper.Map(Repo.LoadCustomerByUsername(order.CustomerUsername));
+                    order.Store = Mapper.Map(Repo.LoadLocationByID(order.StoreID));
+                    order.DeliveryAddress = Mapper.Map(Repo.LoadAddressByID(order.AddressID));
                     OrderClass TheOrder = Mapper.Map(order);
                     TheOrder.VerifyOrder();
                     Repo.PlaceOrder(TheOrder);
