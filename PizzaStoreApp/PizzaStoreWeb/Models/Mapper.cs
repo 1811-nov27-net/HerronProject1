@@ -88,14 +88,22 @@ namespace PizzaStoreWeb.Models
                 UserID = customer.UserID
             };
 
-            foreach (var add in customer.Addresses)
+            if (customer.Addresses != null)
             {
-                cust.Addresses.Add(Map(add));
+                foreach (var add in customer.Addresses)
+                {
+                    cust.Addresses.Add(Map(add));
+                }
+
             }
 
-            foreach (var order in customer.PreviousOrders)
+            if (customer.PreviousOrders != null)
             {
-                cust.Orders.Add(Map(order));
+                foreach (var order in customer.PreviousOrders)
+                {
+                    cust.Orders.Add(Map(order));
+                }
+
             }
 
             cust.SuggestedOrder = Map(customer.SuggestOrder());

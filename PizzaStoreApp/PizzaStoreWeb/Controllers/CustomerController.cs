@@ -22,7 +22,7 @@ namespace PizzaStoreWeb.Controllers
         public ActionResult Index()
         {
 
-            return View(Repo.LoadCustomers().Select(c => Mapper.Map(c)));
+            return View(Repo.LoadCustomers().Select(c => Mapper.Map(c)).ToList());
         }
 
         // GET: Customer/Details/5

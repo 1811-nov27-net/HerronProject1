@@ -329,7 +329,7 @@ namespace PizzaStoreApp.DataAccess
                 LastName = cust.LastName,
                 UserID = cust.CustomerId,
                 FavoriteStoreID = cust.FavoriteStoreId,
-                FailedPasswordChecks = cust.FailedPasswordChecks
+                FailedPasswordChecks = cust.FailedPasswordChecks ?? 0
             };
 
             List<CustomerAddress> adds = cust.CustomerAddress.ToList();
@@ -463,7 +463,10 @@ namespace PizzaStoreApp.DataAccess
 
         public IEnumerable<CustomerClass> LoadCustomers()
         {
-            return Map(_db.Customer.Include(c => c.CustomerAddress).AsNoTracking());
+            var things = _db.Customer.Include(c => c.CustomerAddress);
+            var stuff = things.ToList();
+            var mapped = stuff.Select(c => Map(c));
+            return mapped;
         }
     }
 }

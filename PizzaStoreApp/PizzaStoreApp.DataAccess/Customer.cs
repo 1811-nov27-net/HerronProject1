@@ -9,6 +9,7 @@ namespace PizzaStoreApp.DataAccess
         {
             CustomerAddress = new HashSet<CustomerAddress>();
             PizzaOrder = new HashSet<PizzaOrder>();
+            FailedPasswordChecks = 0;
         }
 
         public int CustomerId { get; set; }
@@ -17,7 +18,7 @@ namespace PizzaStoreApp.DataAccess
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int? FavoriteStoreId { get; set; }
-        public int FailedPasswordChecks { get; set; }
+        public int? FailedPasswordChecks { get; set; }
 
         public virtual ICollection<CustomerAddress> CustomerAddress { get; set; }
         public virtual ICollection<PizzaOrder> PizzaOrder { get; set; }
