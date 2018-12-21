@@ -167,6 +167,7 @@ namespace PizzaStoreWeb.Models
             foreach (var zaa in Order.pizzas)
             {
                 ret.pizzas.Add(Map(zaa));
+                ret.pizzaIDs.Add(zaa.PizzaID);
             }
             return ret;
         }

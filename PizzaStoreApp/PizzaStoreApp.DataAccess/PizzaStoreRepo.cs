@@ -160,8 +160,13 @@ namespace PizzaStoreApp.DataAccess
         public void PlaceOrder(OrderClass order)
         {
             Dictionary<int, string> dict = GenerateIngrediantDictionary();
+            foreach (var zaa in order.pizzas)
+            {
+                zaa.PizzaID = GetPizzaID(zaa.Ingrediants, zaa.Size);
+            }
             PizzaOrder newOrder = Map(order, dict);
             newOrder.PizzaOrderId = _db.PizzaOrder.Max(po => po.PizzaOrderId) + 1;
+
             _db.Add(newOrder);
             Save();
         }

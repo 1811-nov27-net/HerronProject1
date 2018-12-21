@@ -100,35 +100,57 @@ namespace PizzaStoreWeb.Controllers
 
         }
 
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
 
-        //public IActionResult Login(string username, string password)
-        //{
-        //    try
-        //    {
-        //        CustomerClass user = Repo.LoadCustomerByUsername(username);
-        //        Repo.CheckPassword(user, password);
-        //        TempData["user"] = username;
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-
-        //        return View();
-        //    }
-        //}
+        public ActionResult AddPizza()
+        {
+            return View();
+        }
 
 
-        // GET: Address/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPizza(PizzaUI pizza)
+        {
+            if (ModelState.IsValid)
+            {
+                OrderClass TheOrder = (OrderClass)TempData["order"];
+
+                TheOrder.AddPizza(pizza.Size, pizza.Ingrediants);
+                TempData["order"] = TheOrder;
+                return RedirectToAction(nameof(PlaceOrder));
+            }
+            return View(pizza);
+
+        }
+            //public IActionResult Login()
+            //{
+            //    return View();
+            //}
+
+            //public IActionResult Login(string username, string password)
+            //{
+            //    try
+            //    {
+            //        CustomerClass user = Repo.LoadCustomerByUsername(username);
+            //        Repo.CheckPassword(user, password);
+            //        TempData["user"] = username;
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //    catch
+            //    {
+
+            //        return View();
+            //    }
+            //}
 
 
-        
+            // GET: Address/Create
 
 
-        public ActionResult AddAddress()
+
+
+
+            public ActionResult AddAddress()
         {
             return View();
         }
