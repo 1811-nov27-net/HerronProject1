@@ -76,36 +76,40 @@ namespace PizzaStoreWeb.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                if (!ModelState.IsValid)
+                    return View(store);
+                Repo.UpdateLocation(Mapper.Map(store));
 
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(store);
             }
         }
 
         // GET: Store/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int StoreId)
         {
-            return View();
+
+            return View(Mapper.Map(Repo.LoadLocationByID(StoreId)));
         }
 
         // POST: Store/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(StoreUI store)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                if (!ModelState.IsValid)
+                    return View(store);
+                Repo.RemoveLocation(Mapper.Map(store));
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(store);
             }
         }
     }
