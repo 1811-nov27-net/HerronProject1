@@ -37,7 +37,7 @@ namespace PizzaStoreApp.DataAccess
             Save();
         }
 
-        public void AddIngrediantToList(string AdminUsername, string AdminPassword, string IngrediantName)
+        public void AddIngrediantToList(string IngrediantName)
         {
             IngrediantList ig = new IngrediantList
             {
@@ -47,18 +47,11 @@ namespace PizzaStoreApp.DataAccess
             Save();
         }
 
-        public void AddStore(string AdminUsername, string AdminPassword, StoreClass location)
+        public void AddStore(StoreClass location)
         {
-            if (AdminPassword == SecretString.AdminPassword && AdminUsername == SecretString.AdminUsername)
-            {
                 _db.Store.Add(Map(location));
                 Save();
 
-            }
-            else
-            {
-                throw new InvalidLoginException();
-            }
         }
 
         public CustomerClass PopulateOrderHistory(CustomerClass customer)
@@ -80,20 +73,13 @@ namespace PizzaStoreApp.DataAccess
             return customer;
         }
 
-        public void ChangeUserPassword(string AdminUsername, string AdminPassword, CustomerClass customer, string NewPassword)
+        public void ChangeUserPassword(CustomerClass customer, string NewPassword)
         {
-            if (AdminUsername == SecretString.AdminUsername && AdminPassword == SecretString.AdminPassword)
-            {
                 Customer NewCust = _db.Customer.First(c => c.Username == customer.Username);
                 NewCust.Password = NewPassword;
                 NewCust.FailedPasswordChecks = 0;
                 _db.Customer.Update(NewCust);
                 Save();
-            }
-            else
-            {
-                throw new InvalidLoginException();
-            }
         }
 
         public Dictionary<int, string> GenerateIngrediantDictionary()
@@ -207,10 +193,8 @@ namespace PizzaStoreApp.DataAccess
             Save();
         }
 
-        public void RemoveLocation(string AdminUsername, string AdminPassword, StoreClass location)
+        public void RemoveLocation(StoreClass location)
         {
-            if (AdminUsername == SecretString.AdminUsername && AdminPassword == SecretString.AdminPassword)
-            {
                 var orders = _db.PizzaOrder.Where(po => po.StoreId == location.StoreID);
                 foreach (var order in orders)
                 {
@@ -225,11 +209,6 @@ namespace PizzaStoreApp.DataAccess
                 _db.Update(orders);
                 _db.Remove(_db.Store.Where(s => s.StoreName == location.Name));
                 Save();
-            }
-            else
-            {
-                throw new InvalidLoginException();
-            }
         }
 
         public void Save()
@@ -330,6 +309,8 @@ namespace PizzaStoreApp.DataAccess
 
         internal static List<CustomerClass> Map(IQueryable<Customer> queryable)
         {
+            if (queryable.Count() == 0)
+                return null;
             List<CustomerClass> ret = new List<CustomerClass>();
             foreach (var cust in queryable)
             {
@@ -478,6 +459,11 @@ namespace PizzaStoreApp.DataAccess
         public StoreClass LoadLocationByID(int id)
         {
             return Map(_db.Store.First(s => s.StoreId == id));
+        }
+
+        public IEnumerable<CustomerClass> LoadCustomers()
+        {
+            return Map(_db.Customer.Include(c => c.CustomerAddress).AsNoTracking());
         }
     }
 }

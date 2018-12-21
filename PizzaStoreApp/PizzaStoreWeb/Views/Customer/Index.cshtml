@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.FailedPasswordChecks)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { item.UserID }) |
+                @Html.ActionLink("Details", "Details", new { item.UserID }) |
+                @Html.ActionLink("Delete", "Delete", new { item.UserID })
             </td>
         </tr>
 }

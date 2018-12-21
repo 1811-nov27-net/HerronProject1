@@ -31,9 +31,10 @@ namespace PizzaStoreWeb.Controllers
         }
 
         // GET: Store/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int StoreId)
         {
-            return View();
+            
+            return View(Mapper.Map(Repo.LoadLocationByID(StoreId)));
         }
 
         // GET: Store/Create
@@ -45,11 +46,13 @@ namespace PizzaStoreWeb.Controllers
         // POST: Store/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(StoreUI store)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (!ModelState.IsValid)
+                    throw new Exception();
+                Repo.AddStore(Mapper.Map(store));
 
                 return RedirectToAction(nameof(Index));
             }
@@ -60,15 +63,16 @@ namespace PizzaStoreWeb.Controllers
         }
 
         // GET: Store/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int StoreId)
         {
-            return View();
+            StoreUI store = Mapper.Map(Repo.LoadLocationByID(StoreId));
+            return View(store);
         }
 
         // POST: Store/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(StoreUI store)
         {
             try
             {

@@ -13,6 +13,7 @@ namespace PizzaStoreAppLibrary
         Dictionary<int, string> GenerateIngrediantDictionary();
         IEnumerable<CustomerClass> LoadCustomerByName(string FirstName, string LastName);
         IEnumerable<StoreClass> LoadLocations();
+        IEnumerable<CustomerClass> LoadCustomers();
         void AddCustomer(CustomerClass customer);
         void AddAddressToCustomer(AddressClass address, CustomerClass customer);
         void RemoveCustomerAddress(AddressClass address, CustomerClass customer);
@@ -24,11 +25,11 @@ namespace PizzaStoreAppLibrary
         void UpdateLocation(StoreClass location);
         void UpdateCustomer(CustomerClass customer);
         void UpdateAddress(AddressClass address);
-        void AddIngrediantToList(string AdminUsername, string AdminPassword, string IngrediantName);
-        void RemoveLocation(string AdminUsername, string AdminPassword, StoreClass location);
-        void AddStore(string AdminUsername, string AdminPassword, StoreClass location);
+        void AddIngrediantToList(string IngrediantName);
+        void RemoveLocation(StoreClass location);
+        void AddStore(StoreClass location);
         void CheckPassword(CustomerClass customer, string password);
-        void ChangeUserPassword(string AdminUsername, string AdminPassword, CustomerClass customer, string NewPassword);
+        void ChangeUserPassword(CustomerClass customer, string NewPassword);
 
     }
 }

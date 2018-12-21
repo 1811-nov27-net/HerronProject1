@@ -14,7 +14,6 @@ namespace PizzaStoreWeb.Models
         public AddressUI Address { get; set; }
         public Dictionary<string, int> Invantory = new Dictionary<string, int>();
         [Key]
-        [HiddenInput(DisplayValue = false)]
         public int StoreID { get; set; }
 
     }

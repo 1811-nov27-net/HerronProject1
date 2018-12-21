@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PizzaStoreAppLibrary;
+using PizzaStoreWeb.Models;
 
 namespace PizzaStoreWeb.Controllers
 {
@@ -18,40 +19,24 @@ namespace PizzaStoreWeb.Controllers
         }
 
         // GET: Address
-        public ActionResult Index()
+        public ActionResult Index(string username = "")
         {
-            return View();
+            if(username == "")
+                return View();
+            else
+            {
+                List<AddressUI> adds = Repo.LoadCustomerByUsername(username).Addresses.Select(a => Mapper.Map(a)).ToList();
+                return View(adds);
+            }
         }
 
         // GET: Address/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            AddressUI add = Mapper.Map(Repo.LoadAddressByID(id));
+            return View(add);
         }
-
-        // GET: Address/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Address/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+        
         // GET: Address/Edit/5
         public ActionResult Edit(int id)
         {
@@ -61,35 +46,16 @@ namespace PizzaStoreWeb.Controllers
         // POST: Address/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(AddressUI address)
         {
             try
             {
-                // TODO: Add update logic here
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception();
+                }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Address/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Address/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
+                Repo.UpdateAddress(Mapper.Map(address));
                 return RedirectToAction(nameof(Index));
             }
             catch

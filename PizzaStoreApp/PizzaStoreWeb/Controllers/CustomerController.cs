@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PizzaStoreAppLibrary;
+using PizzaStoreWeb.Models;
 
 namespace PizzaStoreWeb.Controllers
 {
@@ -20,13 +21,15 @@ namespace PizzaStoreWeb.Controllers
         // GET: Customer
         public ActionResult Index()
         {
-            return View();
+
+            return View(Repo.LoadCustomers().Select(c => Mapper.Map(c)));
         }
 
         // GET: Customer/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string username)
         {
-            return View();
+            
+            return View(Mapper.Map(Repo.LoadCustomerByUsername(username)));
         }
 
         // GET: Customer/Create

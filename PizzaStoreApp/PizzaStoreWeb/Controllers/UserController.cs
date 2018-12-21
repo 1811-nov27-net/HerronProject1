@@ -56,7 +56,32 @@ namespace PizzaStoreWeb.Controllers
             }
         }
 
-        private ActionResult PlaceOrder()
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CustomerUI customer)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return View(customer);
+                Repo.AddCustomer(Mapper.Map(customer));
+                return RedirectToAction(nameof(PlaceOrder));
+            }
+            catch (Exception)
+            {
+                return View(customer);
+                throw;
+            }
+        }
+
+
+
+        public ActionResult PlaceOrder()
         {
             CustomerClass User = Repo.LoadCustomerByUsername((string)TempData["user"]);
             
