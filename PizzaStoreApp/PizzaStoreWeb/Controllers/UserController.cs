@@ -68,7 +68,7 @@ namespace PizzaStoreWeb.Controllers
                 return View(order);
             }
             List<int> RecentStoreZips = User.PreviousOrders.Where(po => po.DatePlaced.Subtract(DateTime.Now) < TimeSpan.FromHours(2)).Select(po => po.Store.Address.Zip).ToList();
-            ViewData["addresses"] = customer.Addresses.Where(a => !RecentStoreZips.Contains(a.Zip));
+            customer.SuggestedOrder.PossibleAddresses = customer.Addresses.Where(a => !RecentStoreZips.Contains(a.Zip)).ToList();
             return View(customer.SuggestedOrder);
         }
 

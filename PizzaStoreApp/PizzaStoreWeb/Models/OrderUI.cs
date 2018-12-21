@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,6 +25,19 @@ namespace PizzaStoreWeb.Models
         public DateTime DatePlaced { get; set; }
 
         public OrderUI() { }
+
+        public List<AddressUI> PossibleAddresses { get; set; }
+
+        public List<SelectListItem> Addresses()
+        {
+            List<SelectListItem> ret = new List<SelectListItem>();
+            foreach (var add in PossibleAddresses)
+            {
+                ret.Add(new SelectListItem(add.Street, add.AddressID.ToString()));
+            }
+            return ret;
+        }
+
 
     }
 }

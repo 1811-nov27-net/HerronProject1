@@ -18,7 +18,20 @@ namespace PizzaStoreWeb.Models
         [HiddenInput(DisplayValue = false)]
         public int PizzaID { get; set; }
 
+        public string ListOfIngrediants()
+        {
+            string ret = "";
+            foreach (var topping in Ingrediants)
+            {
+                ret = ret + topping + ", ";
 
+            }
+            char[] trim = { ',', ' ' };
+            ret = ret.TrimEnd(trim);
+
+
+            return ret;
+        }
 
     }
     
